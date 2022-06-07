@@ -1,4 +1,4 @@
-package ex3;
+package ex_3;
 
 public interface User { //user card
 public static final int id = 0;
