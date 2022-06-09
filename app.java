@@ -7,6 +7,7 @@ public class app {
     HashMap<String, E_Profile> users_map = new HashMap<String, E_Profile>(); //user name->profile
     HashMap<String, String> passwords = new HashMap<String, String>(); //user name->password
     All_Jobs jobsList;
+	int noale;
     
     public void start_menu() {
     	//1) call login->call user_menue;
