@@ -1,12 +1,15 @@
-package ex_3;
+package ex3;
 
 import java.util.HashMap;
+import java.util.Scanner;
 
 public class app {
 	
     HashMap<String, E_Profile> users_map = new HashMap<String, E_Profile>(); //user name->profile
     HashMap<String, String> passwords = new HashMap<String, String>(); //user name->password
     All_Jobs jobsList;
+	Scanner input = new Scanner(System.in);  // Create a Scanner object
+
     
     public void start_menu() {
 		int exit = 0;
@@ -20,7 +23,7 @@ public class app {
 				login();
 				break; 
 			case 2:
-				signin();
+				sign_in();
 				break;
 			case 3: 
 			//log out ->menu
@@ -38,11 +41,12 @@ public class app {
 		System.out.println("Please enter your password:");
 		String password = input.nextLine();
 		
-		isExist(user_name, password);
+		// TODO: isExist(user_name, password);
 		//check if maneger
-		if(user_name.isEqual("maneger") && password.isEqual("1800400400"))
-			maneger_menu();
-		else:
+		if(user_name.equals("maneger") && password.equals("1800400400"))
+			//maneger_menu();
+			System.out.println("nothing.. just for removing error :)"); //TODO: delete
+		else
 			user_menu(user_name);
     }
 
@@ -51,6 +55,7 @@ public class app {
 		String user_name = input.nextLine();
 		System.out.println("Please enter a password:");
 		String password = input.nextLine();
+		System.out.println(password); //remove eroor. TODO: delete
     	E_Profile e_p=new E_Profile(user_name);
     	users_map.put(user_name,e_p); 
     	 //return to main menu- to login
@@ -120,7 +125,7 @@ public class app {
 		}
 		
 	}
-    public static void main(String[] args){
+    public void main(String[] args){
 		start_menu(); 
 	}
  
