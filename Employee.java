@@ -9,7 +9,6 @@ public abstract class Employee {//implements User {
 	//getters and setters
 	public abstract  void changeDetiles() ;
 		//change detailes of details /language/ extraInf
-	gfbdgbfgb
 
 
 
