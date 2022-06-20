@@ -32,8 +32,6 @@ public abstract class Employee {//implements User {
 	public void setPhone(String phone) {
 		this._details.getPhone = getPhone;
 	}
-	
-	//getters and setters:
 	public boolean isPython() {
 		return _language.isPython();
 	}
@@ -63,6 +61,13 @@ public abstract class Employee {//implements User {
 
 	public void setJavascript(boolean javascript) {
 		this._language.setJavascript() = javascript;
+	}
+
+	public String getExtraInf(){
+		return _extraInf;
+	}
+	public void setExtraInf(String extra){
+		_extraInf=extra;
 	}
 
 
