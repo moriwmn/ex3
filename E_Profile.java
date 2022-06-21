@@ -2,28 +2,56 @@ package ex_3;
 
 public class E_Profile implements Profile {
 
-	private String user_name;
-	private Employee employee; //student/ junior
+	private String _user_name;
+	private Employee _employee; //student/ junior
 	
+	public E_Profile(String user_name) {
+		_user_name=_user_name;
+		_employee=new Employee();
+	}
 	public E_Profile() {
-		// TODO Auto-generated constructor stub
 	}
-
 	
-	public E_Profile(String user_name2) {
-		// TODO Auto-generated constructor stub
+	public Employee getEmployee(){
+
+	}
+	//getters and setters:
+	public String getEmployeeName() {
+		return _employee.getDetails().getName();
+	}
+	public void setEmployeeName(String name) {
+		_employee.getDetails().setName(name);
+	}
+
+	public String getEmployeeLocation() {
+		return _employee.getDetails().getLocation();
+	}
+
+	public void setEmployeeLocation(String location) {
+		_employee.getDetails().setLocation(location);
+	}
+	public String getEmployeeEmail() {
+		return _employee.getDetails().getEmail();
+	}
+
+	public String setEmployeeEmail(String email ) {
+		_employee.getDetails().setEmail(email);
+	}
+	public String getEmployeePhone() {
+		return _employee.getDetails().getPhone();
+	}
+
+	public void setEmployeePhone(String phone ) {
+		_employee.getDetails().setPhone(phone);
 	}
 
 
-	public Employee getEmployee() {
-		return employee;
-	}
 
-	public void setEmployee(Employee employee) {
-		this.employee = employee;
-	}
+
+
 	
 	public void create_account() {
+		
 	
 		}
 
@@ -38,13 +66,13 @@ public class E_Profile implements Profile {
 	}
 	
 	//func:
-	public void remove_me() {
-	}
+
 
 
 	@Override
 	public void menu() {
-		// TODO Auto-generated method stub	
+		
+
 	}
 	
 
