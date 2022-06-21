@@ -1,15 +1,32 @@
 package ex_3;
 
 public class Student extends Employee{
-	String university;
-	int years; // how many years to graduation
-	int gpa // avarge grades
+	private String _university;
+	private int _years_num; // how many years to graduation
+	private int _gpa // avarge grades
 	
-	@Override
-	public void changeDetiles() {
-		// TODO Auto-generated method stub
-		
+	public String getUniversity(){
+		return _university;
 	}
+	public int getYearsNum(){
+		return _years_num;
+	}
+	public int getGpa(){
+		return _gpa;
+	}
+
+	public void setUniversity(String university){
+		_university=university;
+	}
+	public void setYearsNum(int years){
+		_years_num=years;
+	}
+	public void setGpa(int gpa){
+		_gpa=gpa;
+	}
+
+
+
 	
 
 	
