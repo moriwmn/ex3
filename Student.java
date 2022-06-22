@@ -1,10 +1,21 @@
-package ex_3;
+package ex3;
 
 public class Student extends Employee{
+
 	private String _university;
 	private int _years_num; // how many years to graduation
-	private int _gpa // avarge grades
+	private int _gpa; // avarge grades
 	
+	public Student(Personal_info _details) {
+		super(_details);
+		//TODO Auto-generated constructor stub
+	}
+	public Student(Personal_info _details, String _university, int _years_num, int _gpa) {
+		super(_details);
+		this._university = _university;
+		this._years_num = _years_num;
+		this._gpa = _gpa;
+	}
 	public String getUniversity(){
 		return _university;
 	}

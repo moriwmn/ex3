@@ -1,4 +1,4 @@
-package ex_3;
+package ex3;
 
 public class Languages {
 	private boolean python;
@@ -7,6 +7,13 @@ public class Languages {
 	private boolean cpp;
 	private boolean javascript;
 	
+	public Languages(boolean python, boolean java, boolean c, boolean cpp, boolean javascript) {//TODO:think about better constructor
+		this.python = python;
+		this.java = java;
+		this.c = c;
+		this.cpp = cpp;
+		this.javascript = javascript;
+	}
 	//getters and setters:
 	public boolean isPython() {
 		return python;

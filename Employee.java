@@ -1,4 +1,4 @@
-package ex_3;
+package ex3;
 
 public abstract class Employee {//implements User { 
 	
@@ -7,12 +7,17 @@ public abstract class Employee {//implements User {
 	String _extraInf; //extra information
 	
 
-	public Pesonal_info getDetails(){
-		return _details
+	public Employee(Personal_info _details) {
+		this._details = _details;
+	}//name constructore only
+
+	public Personal_info getDetails(){
+		return _details;
 	}
 	public Languages getLanuage(){
 		return _language;
 	}
+}
 
 	// //getters and setters
 	// public String getEmail(){

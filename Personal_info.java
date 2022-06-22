@@ -1,4 +1,4 @@
-package ex_3;
+package ex3;
 
 public class Personal_info {
 	private String name;
@@ -7,6 +7,9 @@ public class Personal_info {
 	
 	//getters and setters
 
+	public Personal_info(String name) {
+		this.name = name;
+	}
 	public String getName() {
 		return name;
 	}
@@ -25,6 +28,16 @@ public class Personal_info {
 	public void setGender(String gender) {
 		this.gender = gender;
 	}
+    public String getLocation() {
+        return null;
+    }
+	public void setLocation(String location) {
+	}
+    public String getPhone() {
+        return null;
+    }
+    public void setPhone(String phone) {
+    }
 	
 	
 }

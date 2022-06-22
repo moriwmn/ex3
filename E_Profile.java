@@ -1,18 +1,20 @@
-package ex_3;
+package ex3;
 
 public class E_Profile implements Profile {
 
 	private String _user_name;
 	private Employee _employee; //student/ junior
 	
-	public E_Profile(String user_name) {
+	public E_Profile(String user_name) {//TODO:figure out why do we need detailes
 		_user_name=_user_name;
-		_employee=new Employee();
+		Personal_info personal_info=new Personal_info(user_name);
+		_employee=new Employee(personal_info);//TODO:why??????????????????????????
 	}
 	public E_Profile() {
 	}
 	
 	public Employee getEmployee(){
+		return _employee;
 
 	}
 	//getters and setters:
@@ -34,7 +36,7 @@ public class E_Profile implements Profile {
 		return _employee.getDetails().getEmail();
 	}
 
-	public String setEmployeeEmail(String email ) {
+	public void setEmployeeEmail(String email ) {
 		_employee.getDetails().setEmail(email);
 	}
 	public String getEmployeePhone() {
@@ -57,12 +59,12 @@ public class E_Profile implements Profile {
 
 
 	public String getUser_name() {
-		return user_name;
+		return _user_name;
 	}
 
 
 	public void setUser_name(String user_name) {
-		this.user_name = user_name;
+		this._user_name = user_name;
 	}
 	
 	//func:

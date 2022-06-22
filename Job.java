@@ -1,12 +1,19 @@
-package ex_3;
+package ex3;
 
 public abstract class Job {
+	
 private String type; //job for student/junior/senior
 private String Company;	
 private String location;
 Languages prog_language;
-int num_of_hours;
 
+
+public Job(String type, String company, String location, Languages prog_language) {
+	this.type = type;
+	this.Company = company;
+	this.location = location;
+	this.prog_language = prog_language;
+}
 public String getType() {
 	return type;
 }
