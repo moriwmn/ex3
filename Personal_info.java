@@ -3,41 +3,48 @@ package ex3;
 public class Personal_info {
 	private String name;
 	private String email;
-	private String gender;
-	
-	//getters and setters
+	private String location;
+	private String phone;
 
-	public Personal_info(String name) {
-		this.name = name;
+	// constractor:
+	public Personal_info(String name2, String email2, String location2, String phone2) {
+		name = name2;
+		email = email2;
+		location = location2;
+		phone = phone2;
 	}
+
+	// getters and setters:
 	public String getName() {
 		return name;
 	}
+
 	public void setName(String name) {
 		this.name = name;
 	}
+
 	public String getEmail() {
 		return email;
 	}
+
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public String getGender() {
-		return gender;
+
+	public String getLocation() {
+		return location;
 	}
-	public void setGender(String gender) {
-		this.gender = gender;
-	}
-    public String getLocation() {
-        return null;
-    }
+
 	public void setLocation(String location) {
+		this.location = location;
 	}
-    public String getPhone() {
-        return null;
-    }
-    public void setPhone(String phone) {
-    }
-	
-	
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
 }
