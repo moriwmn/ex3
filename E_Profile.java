@@ -6,17 +6,14 @@ public class E_Profile implements Profile {
 
 	private Employee _employee; // student/ junior
 	Scanner input = new Scanner(System.in); // Create a Scanner object
-
+	
+	public E_Profile(String maneger) {
+		_employee=null;
+		 // TODO - it is ok?
+	}
 	public E_Profile() {
 		create_user_card(); // TODO - it is ok?
 	}
-
-	// public E_Profile(String user_name) {// TODO:figure out why do we need
-	// detailes
-	// _user_name = user_name;
-	// Personal_info personal_info = new Personal_info(user_name);
-	// _employee = new Employee(personal_info);// TODO:why??????????????????????????
-	// }
 
 	// getters and setters:
 	public String getEmployeeName() {
@@ -63,7 +60,7 @@ public class E_Profile implements Profile {
 	}
 
 	public void create_user_card() {
-		System.out.println("create your user_card:");
+		System.out.println("Create your user_card:");
 		System.out.println("pleas enter your name");
 		String name = input.nextLine();
 		System.out.println("please enter your email");

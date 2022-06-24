@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
+
 public class app {
 
 	HashMap<String, E_Profile> users_map = new HashMap<String, E_Profile>(); // user name->profile
@@ -12,6 +13,9 @@ public class app {
 	Scanner input = new Scanner(System.in); // Create a Scanner object
 
 	public app() {
+		// E_Profile e_p = new E_Profile("maneger"); //TODO:created a maneger in the list without personal card.
+		// users_map.put("maneger", e_p);
+		passwords.put("maneger", "1800400400");
 	}
 
 	public void start_menu() {
@@ -21,7 +25,7 @@ public class app {
 			System.out.println("1.LOG-IN ");
 			System.out.println("2.SIGN-IN ");
 			System.out.println("3.Exit ");
-			int app = Integer.parseInt(input.nextLine());
+			int app = input.nextInt();
 			switch (app) {
 				case 1:
 					login();
@@ -47,7 +51,7 @@ public class app {
 		String user_name = input.nextLine();
 		System.out.println("Please enter your password:");
 		String password = input.nextLine();
-		if (!isExist(user_name))// check if the name exist in the system.
+		if (!isExist(user_name, password))// check if the name exist in the system.
 			System.out.println("the user name or password are not correct.");
 		// check if maneger
 		else if (user_name.equals("maneger") && password.equals("1800400400"))
@@ -62,16 +66,21 @@ public class app {
 		do {
 			System.out.println("Please enter a user name:");
 			user_name = input.nextLine();
-			flag = isExist(user_name);
+			flag = user_name_in_use(user_name);
 			if (flag)
 				System.out.println("This name is taken. pls choose another one");
 		} while (flag);
 		System.out.println("Please enter a password:");
 		String password = input.nextLine(); // TODO: what to do with the password?
+		passwords.put(user_name, password);
 		E_Profile e_p = new E_Profile();
 		users_map.put(user_name, e_p);
 		System.out.println("Thank you for signing in! pls log-in");
 		// return to main menu- to login
+	}
+
+	private boolean user_name_in_use(String user_name) {
+		return passwords.containsKey(user_name);
 	}
 
 	public void user_menu(String user_name) {
@@ -86,7 +95,7 @@ public class app {
 			System.out.println("4. Exit");
 			System.out.println("********************************************");
 			System.out.println("Enter app number:");
-			int app = Integer.parseInt(input.nextLine());
+			int app =input.nextInt();
 			switch (app) {
 				case 1:
 					users_map.get(user_name).menu();
@@ -122,7 +131,7 @@ public class app {
 			System.out.println("4. Exit");
 			System.out.println("********************************************");
 			System.out.println("Enter app number:");
-			int app = Integer.parseInt(input.nextLine());
+			int app = input.nextInt();
 			switch (app) {
 				case 1:
 					add_job();
@@ -131,7 +140,7 @@ public class app {
 					// TODO:delete_job();
 					break;
 				case 3:
-					// TODO:print_all_jobs()
+					print_all_jobs();
 					break;
 				case 4:
 					exit = 1;
@@ -144,29 +153,56 @@ public class app {
 
 	}
 
-	public boolean isExist(String user_name) {
-		return passwords.containsValue(user_name);
+	private void print_all_jobs() {
+		for (int i=0; i<jobsList.size(); i++) {
+			System.out.print(jobsList.get(i));
+		}
+	}
+
+	public boolean isExist(String user_name, String password) {
+		if(passwords.containsKey(user_name)){
+			String x=passwords.get(user_name);
+			if(x.equals(password))
+			{
+				return true;
+			}
+				
+		}
+		return false;	
 	}
 
 	private void add_job() {
-		int app2 = 0;
+		Job new_job;
+		int app2,app = 0;
+		String Job_type= " ", type=" ";
 		boolean py = false, java = false, c = false, cpp = false, j_s = false;
-		System.out.println("what is the job scopepe? 1)student, 2)senior");// TODO:Find a better definition for the type
-																			// of job-student/senior
-		String Job_scopepe = input.nextLine();
-		System.out.println("what is the job location");
+		System.out.println("what is the position type? 1)Student, 2)Senior");//Job type
+		app = input.nextInt();
+		while(app != 1 && app != 2 ){
+			System.out.println("Pls enter 1 or 2");
+			app = input.nextInt();
+		}
+		if(app == 1){Job_type="student";}
+		else if(app == 2){Job_type="senior";}
+		System.out.println("what is the job location?");//Job location
 		String location = input.nextLine();
-		System.out.println("what is the job type"); //
-		String type = input.nextLine();
-
+		location = input.nextLine();
+		System.out.println("what is the job Erea? 1)Hardware, 2)Software"); //Job field
+		app = input.nextInt();
+		while(app != 1 && app != 2 ){
+			System.out.println("Pls enter 1 or 2");
+			app = input.nextInt();
+		}
+		if(app == 1){type="hardware";}
+		else if(app == 2){type="software";}
 		do {
-			System.out.println("what programming languages is required?");
+			System.out.println("what programming languages is required?");//programming langueges
 			System.out.println("1)python");
 			System.out.println("2)java");
 			System.out.println("3)c");
 			System.out.println("4)cpp");
 			System.out.println("5)javascript");
-			int app = Integer.parseInt(input.nextLine());
+			app = input.nextInt();
 			switch (app) {
 				case 1:
 					py = true;
@@ -184,14 +220,14 @@ public class app {
 					j_s = true;
 					break;
 			}
-			System.out.println("To add another programming language pls press 1:");
-			app2 = Integer.parseInt(input.nextLine());
+			System.out.println("To add another programming language pls press 1, otherwise press on any other key:");
+			app2 = input.nextInt();
 		} while (app2 == 1);
 		Languages prog_language = new Languages(py, java, c, cpp, j_s);
-		System.out.println("what is the company name?");
+		System.out.println("what is the company name?"); //company name
 		String company = input.nextLine();
-		Job new_job;
-		if (Job_scopepe == "student") {
+		company = input.nextLine();
+		if (Job_type.equals("student")) { //stuednt 
 			System.out.println("Please enter a required GPA");
 			int gpa_req = input.nextInt();
 			System.out.println("Please enter a salary per hour");
@@ -199,7 +235,7 @@ public class app {
 			System.out.println("Please enter a num of hours in week");
 			int num_hours = input.nextInt();
 			new_job = new Student_Job(type, company, location, prog_language, salary, gpa_req, num_hours);
-		} else {
+		} else {//senior
 			System.out.println("Please enter a required experience");
 			String experience = input.nextLine();
 			System.out.println("Please enter a required num of seniority");

@@ -33,5 +33,9 @@ public void setCompany(String company) {
 	Company = company;
 }
 
-
+@Override
+public String toString() {
+	return "\r\nJob type:"+type+ "\r\nCompany name:" + Company + "\r\nLocation:"+location; //TODO: how to print languages
 }
+}
+
