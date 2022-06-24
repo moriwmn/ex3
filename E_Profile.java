@@ -6,13 +6,8 @@ public class E_Profile implements Profile {
 
 	private Employee _employee; // student/ junior
 	Scanner input = new Scanner(System.in); // Create a Scanner object
-	
-	public E_Profile(String maneger) {
-		_employee=null;
-		 // TODO - it is ok?
-	}
+
 	public E_Profile() {
-		create_user_card(); // TODO - it is ok?
 	}
 
 	// getters and setters:
@@ -22,7 +17,6 @@ public class E_Profile implements Profile {
 
 	public Employee getEmployee() {
 		return _employee;
-
 	}
 
 	public void setEmployeeName(String name) {
@@ -60,9 +54,16 @@ public class E_Profile implements Profile {
 	}
 
 	public void create_user_card() {
-		System.out.println("Create your user_card:");
-		System.out.println("pleas enter your name");
+		System.out.println("***********Create your user_card:***********");
+		System.out.println("enter your status- \n press 1 for student \n press 2 for senior");
+		int status = input.nextInt();
+		while (status != 1 && status != 2) {
+			System.out.println("Pls enter 1 or 2");
+			status = input.nextInt();
+		}
+		System.out.println("please enter your name");
 		String name = input.nextLine();
+		name = input.nextLine();
 		System.out.println("please enter your email");
 		String email = input.nextLine();
 		System.out.println("please enter your location: north,south,center"); // TODO לחשוב איך שומרים את זה בשביל המיון
@@ -99,13 +100,30 @@ public class E_Profile implements Profile {
 					j_s = true;
 					break;
 			}
-			System.out.println("To add another programming language pls press 1:");
+			System.out.println("To add another programming language pls press 1, otherwise press on any other key:");
 			app2 = Integer.parseInt(input.nextLine());
 		} while (app2 == 1);
 		Languages prog_language = new Languages(py, java, c, cpp, j_s);
 		System.out.println("enter more information");
 		String extra_inf = input.nextLine();
-		_employee = new Employee(personal_inf, prog_language, extra_inf);
+
+		if (status == 1) { // add sudent details to user card
+			System.out.println("please enter your GPA:");
+			int gpa = input.nextInt();
+			System.out.println("please enter the name of the university where you are studying:");
+			String univesity = input.nextLine();
+			univesity = input.nextLine();
+			System.out.println("Enter num of years left");
+			int years = input.nextInt();
+			_employee = new Student(personal_inf, prog_language, extra_inf, univesity, years, gpa);
+		}
+		if (status == 2) { // add senior details to user card
+			System.out.println("entar your last job");
+			String last_job = input.nextLine();
+			System.out.println("enter num years of experience ");
+			int experience = input.nextInt();
+			_employee = new Senior(personal_inf, prog_language, extra_inf, last_job, experience);
+		}
 	}
 
 }// end of class

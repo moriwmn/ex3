@@ -1,14 +1,14 @@
 package ex3;
 
-public class Employee {// implements User {
+public abstract class Employee {// implements User {
 
 	Personal_info _details;
 	Languages _language; // think about how do it
 	String _extraInf; // extra information
 
-	public Employee(Personal_info _details) {
-		this._details = _details;
-	}// name constructore only
+	// public Employee(Personal_info _details) {
+	// this._details = _details;
+	// }// name constructore only
 
 	public Employee() {
 	}
