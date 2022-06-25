@@ -60,10 +60,10 @@ public class app {
 
 	public void login() {
 		HashMap<String, String> user = ui.login();  
-		 if (!isExist(user.get("user_name"), user.get("user_name")))// check if the name exist in the system.
+		 if (!isExist(user.get("user_name"), user.get("password")))// check if the name exist in the system.
 		 	ui.error_message("the user name or password are not correct");
 		// check if maneger
-		else if (user.get("user_name").equals("maneger") && user.get("user_name").equals("1800400400"))
+		else if (user.get("user_name").equals("maneger") && user.get("password").equals("1800400400"))
 			maneger_menu();
 		else
 			user_menu(user.get("user_name"));
@@ -74,7 +74,6 @@ public class app {
 		boolean flag = false;
 		do {
 			System.out.println("Please enter a user name:");
-			user_name = input.nextLine();
 			user_name = input.nextLine();
 			flag = user_name_in_use(user_name);
 			if (flag)
@@ -111,7 +110,7 @@ public class app {
 					print_all_jobs(user_name); // call this func with card of this user.
 					break;
 				case 3:
-					// TODO:print_jobs_by_location()
+					print_jobs_by_location(user_name);
 					break;
 				case 4:
 					// TODO:print_jobs_by_type()
@@ -125,6 +124,24 @@ public class app {
 			}
 		}
 
+	}
+
+	private void print_jobs_by_location(String user_name) {
+		String location = users_map.get(user_name).getEmployeeLocation();
+		if (users_map.get(user_name).getEmployee() instanceof Student) {
+			for (int i = 0; i < jobsList.size(); i++) {
+				if (jobsList.get(i) instanceof Student_Job && (jobsList.get(i).getLocation().equals(location))) {
+					System.out.print(jobsList.get(i));
+				}
+			}
+		}
+		if (users_map.get(user_name).getEmployee() instanceof Senior) {
+			for (int i = 0; i < jobsList.size(); i++) {
+				if (jobsList.get(i) instanceof Senior_Job && (jobsList.get(i).getLocation().equals(location))) {
+					System.out.print(jobsList.get(i));
+				}
+			}
+		}
 	}
 
 	public void maneger_menu() {
@@ -143,7 +160,7 @@ public class app {
 					add_job();
 					break;
 				case 2:
-					// TODO:delete_job();
+					delete_job();
 					break;
 				case 3:
 					print_all_jobs();
@@ -159,26 +176,51 @@ public class app {
 
 	}
 
+	private void delete_job() {
+		print_all_jobs();
+		System.out.println("What is the number of the job you want to remove? ");
+		int app = input.nextInt();
+		if(app < 1 || app > jobsList.size()){
+			System.out.println("you are out of the list range");
+		}
+		else{
+			jobsList.remove(app-1);
+		}
+
+	}
+
 	private void print_all_jobs(String user_name) { //
+		int j;
 		if (users_map.get(user_name).getEmployee() instanceof Student) {
 			for (int i = 0; i < jobsList.size(); i++) {
 				if (jobsList.get(i) instanceof Student_Job) {
+					j=i+1;
+					System.out.print("***Job num "+ j +"***");
 					System.out.print(jobsList.get(i));
+					System.out.println("\n");
+
 				}
 			}
 		}
 		if (users_map.get(user_name).getEmployee() instanceof Senior) {
 			for (int i = 0; i < jobsList.size(); i++) {
 				if (jobsList.get(i) instanceof Senior_Job) {
+					j=i+1;
+					System.out.print("***Job num "+ j +"***");
 					System.out.print(jobsList.get(i));
+					System.out.println("\n");
 				}
 			}
 		}
 	}
 
-	private void print_all_jobs() {
+	private void print_all_jobs() {//for maneger
+		int j;
 		for (int i = 0; i < jobsList.size(); i++) {
+			j=i+1;
+			System.out.print("***Job num "+ j +"***");
 			System.out.print(jobsList.get(i));
+			System.out.println("\n");
 		}
 	}
 
@@ -198,8 +240,13 @@ public class app {
 		} else if (app == 2) {
 			Job_type = "senior";
 		}
-		System.out.println("what is the job location?");// Job location
-		String location = input.nextLine();
+		
+		System.out.println("what is the job location?-1)South, 2) Center, 3) North ");// Job location 
+		int location_c= input.nextInt();//TODO:input check
+		String location= " ";
+		if(location_c==1){location="South";}
+		if(location_c==2){location="Center";}
+		if(location_c==3){location="North";}
 		location = input.nextLine();
 		System.out.println("what is the job Erea? 1)Hardware, 2)Software"); // Job field
 		app = input.nextInt();
@@ -268,7 +315,6 @@ public class app {
 			if (x.equals(password)) {
 				return true;
 			}
-
 		}
 		return false;
 	}
@@ -289,11 +335,11 @@ public class app {
 	public void add_job_to_DB(boolean type,String name, String company){
 		Languages languages = new Languages();
 		if(type){ //student
-		Student_Job job = new Student_Job("type", company, "location" , languages, 100, 85, 20); 
+		Student_Job job = new Student_Job("type", company, "North" , languages, 100, 85, 20); 
 		jobsList.add(job);	
 		}
 		else{ //senior
-		Senior_Job job = new Senior_Job("type", company, "location", languages,5 , "experience");
+		Senior_Job job = new Senior_Job("type", company, "South", languages,5 , "experience");
 		jobsList.add(job);
 		}
 		

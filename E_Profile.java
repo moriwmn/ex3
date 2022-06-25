@@ -77,9 +77,12 @@ public class E_Profile implements Profile {
 		name = input.nextLine();
 		System.out.println("please enter your email");
 		String email = input.nextLine();
-		System.out.println("please enter your location: north,south,center"); // TODO לחשוב איך שומרים את זה בשביל המיון
-																				// אחכ הגהה
-		String location = input.nextLine();
+		System.out.println("please enter your location:1)South, 2)Center, 3)North"); 
+		int location_c = input.nextInt();
+		String location=" ";
+		if(location_c==1){location="South";}
+		if(location_c==2){location="Center";}
+		if(location_c==3){location="North";}
 		System.out.println("please enter your phone number");
 		String phone = input.nextLine();
 		Personal_info personal_inf = new Personal_info(name, email, location, phone);
