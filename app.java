@@ -3,6 +3,7 @@ package ex3;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
+import javax.swing.*; 
 
 public class app {
 
@@ -10,6 +11,10 @@ public class app {
 	HashMap<String, String> passwords = new HashMap<String, String>(); // user name->password
 	ArrayList<Job> jobsList = new ArrayList<Job>();
 	Scanner input = new Scanner(System.in); // Create a Scanner object
+	//for printing:
+	UI ui = new UI();
+	// ImageIcon logo = new ImageIcon("logo.png");
+	// String[] responses={null,null,null}; 
 
 	public app() {
 		passwords.put("maneger", "1800400400");
@@ -21,24 +26,37 @@ public class app {
 	public void start_menu() {
 		int exit = 0;
 		while (exit == 0) {
-			System.out.println(" ********************Welcome to Job Matcher! ********************");
-			System.out.println("1.LOG-IN ");
-			System.out.println("2.SIGN-IN ");
-			System.out.println("3.Exit ");
-			int app = input.nextInt();
-			switch (app) {
-				case 1:
+			int operation = ui.panel_welcome();
+			// responses[0] = "LOG-IN";
+			// responses[1] = "SIGN-IN";
+			// responses[2] = "Exit";
+			// //{"LOG-IN", "SIGN-IN", "Exit" };
+			// int operation = JOptionPane.showOptionDialog(null,
+			// "Welcome to Job Matcher!", 
+			// "welcome", 
+			// JOptionPane.YES_NO_CANCEL_OPTION, 
+			// JOptionPane.INFORMATION_MESSAGE, 
+			// logo, 
+			// responses, 
+			// null);
+			//System.out.println(" ********************Welcome to Job Matcher! ********************");
+			//System.out.println("1.LOG-IN ");
+			//System.out.println("2.SIGN-IN ");
+			//System.out.println("3.Exit ");
+			//int app = input.nextInt();
+			switch (operation) {
+				case 0:
 					login();
 					break;
-				case 2:
+				case 1:
 					sign_in();
 					break;
-				case 3:
+				case 2:
 					// log out ->menu
 					exit = 1;
 					break;
 				default:
-					System.out.println("Not a valid choice!");
+					//System.out.println("Not a valid choice!");
 					break;
 			}
 		}
@@ -47,18 +65,14 @@ public class app {
 	}
 
 	public void login() {
-		System.out.println("Please enter your user name:");
-		String user_name = input.nextLine();
-		user_name = input.nextLine();
-		System.out.println("Please enter your password:");
-		String password = input.nextLine();
-		if (!isExist(user_name, password))// check if the name exist in the system.
-			System.out.println("the user name or password are not correct.");
+		HashMap<String, String> user = ui.login();  
+		 if (!isExist(user.get("user_name"), user.get("user_name")))// check if the name exist in the system.
+		 	ui.error_message("the user name or password are not correct");
 		// check if maneger
-		else if (user_name.equals("maneger") && password.equals("1800400400"))
+		else if (user.get("user_name").equals("maneger") && user.get("user_name").equals("1800400400"))
 			maneger_menu();
 		else
-			user_menu(user_name);
+			user_menu(user.get("user_name"));
 	}
 
 	public void sign_in() {
