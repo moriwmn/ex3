@@ -36,14 +36,76 @@ public class UI {
         return user;
     } 
 
-    public void error_message(String message){
-        JOptionPane.showConfirmDialog(null,
+    public void reg_message(String title, String message){
+        JOptionPane.showMessageDialog(null,
             message,
-			"Error", 
-			JOptionPane.OK_CANCEL_OPTION, 
-			JOptionPane.ERROR_MESSAGE);
+			title, 
+			JOptionPane.OK_CANCEL_OPTION);
+    }
+
+    public void reg_message(String message){
+        reg_message(" ", message);
+    }
+
+    public void error_message(String message){
+        JOptionPane.showMessageDialog(null, 
+        message, 
+        "Error", 
+        JOptionPane.ERROR_MESSAGE);
+    }
+
+    public String free_input(String title, String message){
+        return JOptionPane.showInputDialog(null, 
+        message, 
+        title, 
+        JOptionPane.PLAIN_MESSAGE);
+    }
+
+    public int yes_no(String title, String message){
+        return JOptionPane.showConfirmDialog(null, 
+        message, 
+        title, 
+        JOptionPane.YES_NO_OPTION);
+    }
+
+    public int two_options(String title, String message, String option1,  String option2){
+
+        String[] responses = {option1,option2};
+
+        return JOptionPane.showOptionDialog(null,
+        message, 
+        title, 
+        JOptionPane.DEFAULT_OPTION, 
+        JOptionPane.INFORMATION_MESSAGE, 
+        null,
+        responses,
+        responses[0]);
+    }
+
+    public int some_options(String title, String message, String[] options ){
+        return JOptionPane.showOptionDialog(null,
+        message, 
+        title, 
+        JOptionPane.DEFAULT_OPTION, 
+        JOptionPane.INFORMATION_MESSAGE, 
+        null,
+        options,
+        options[0]);
     }
     
+    public int list_options(String title, String message, String option1,  String option2){
+
+        String[] responses = {option1,option2};
+
+        return JOptionPane.showOptionDialog(null,
+        message, 
+        title, 
+        JOptionPane.DEFAULT_OPTION, 
+        JOptionPane.INFORMATION_MESSAGE, 
+        null,
+        responses,
+        responses[0]);
+    }
 
     
 }
