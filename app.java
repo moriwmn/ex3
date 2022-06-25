@@ -3,7 +3,6 @@ package ex3;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
-import javax.swing.*; 
 
 public class app {
 
@@ -28,14 +27,11 @@ public class app {
 		add_job_to_DB(true, "Security Researcher", "Microsoft");
 		add_job_to_DB(false, "QA", "Intel");
 
-		// E_Profile e_p1 = new E_Profile();
-		// users_map.put("shira", e_p1);
-		// passwords.put("shira", "1111");
 	}
 
 	public void start_menu() {
-		int exit = 0;
-		while (exit == 0) {
+		boolean exit = false;
+		while (!exit) {
 			int operation = ui.panel_welcome();
 			switch (operation) {
 				case 0:
@@ -46,12 +42,10 @@ public class app {
 					break;
 				case 2:
 					// log out ->menu
-					exit = 1;
+					exit = true;
 					break;
 				default:
-					exit = 1;
-					//System.out.println("Not a valid choice!");
-					break;
+					exit = true;
 			}
 		}
 		input.close();
@@ -60,7 +54,7 @@ public class app {
 
 	public void login() {
 		HashMap<String, String> user = ui.login();  
-		 if (!isExist(user.get("user_name"), user.get("password")))// check if the name exist in the system.
+		if (!isExist(user.get("user_name"), user.get("password")))// check if the name exist in the system.
 		 	ui.error_message("the user name or password are not correct");
 		// check if maneger
 		else if (user.get("user_name").equals("maneger") && user.get("password").equals("1800400400"))
@@ -73,55 +67,47 @@ public class app {
 		String user_name;
 		boolean flag = false;
 		do {
-			System.out.println("Please enter a user name:");
-			user_name = input.nextLine();
+			user_name= ui.free_input("SIGN-IN","Please enter a user name:");
 			flag = user_name_in_use(user_name);
 			if (flag)
-				System.out.println("This name is taken. pls choose another one");
+			ui.error_message("This name is taken. pls choose another one");
 		} while (flag);
-		System.out.println("Please enter a password:");
-		String password = input.nextLine();
-		// password = input.nextLine();
+		String password = ui.free_input("SIGN-IN","Please enter a password:");
 		passwords.put(user_name, password);
 		E_Profile e_p = new E_Profile();
 		e_p.create_user_card();
 		users_map.put(user_name, e_p);
-		System.out.println("Thank you for signing in! pls log-in");
+		ui.reg_message("SIGN-IN", "Thank you for signing in! pls log-in");
 		// return to main menu- to login
 	}
 
 	public void user_menu(String user_name) {
 
 		while (true) {
-			System.out.println("********************Menu********************");
-			System.out.println("1. Edit your profile ");
-			System.out.println("2. show all jobs");
-			System.out.println("3. Show job by lcation ");
-			System.out.println("4. Show job by type ");
-			System.out.println("5. Exit");
-			System.out.println("********************************************");
-			System.out.println("Enter app number:");
-			int app = input.nextInt();
-			switch (app) {
-				case 1:
-					users_map.get(user_name).menu();
-					break;
-				case 2: // הדפסת כל המשרות בהתאמה לסוג מחפש- סטודנט או עובד
+			int choice = ui.two_options("Menu", "what do you want to do:", "Edit my profile", "Find my next Job");
+			if (choice == 0){ // My profile
+			users_map.get(user_name).menu();
+			}
+			else if (choice == 1){ // Find my next Job
+			String[] find_job_options = {"Show all jobs","Show job by lcation", "Show job by type"}; //options for printing
+			int operation = ui.some_options("Job Matcher", "Find my next Job", find_job_options);
+			switch (operation) {
+				case 0: //print all jobs (according to the employee type- student/senior)
 					print_all_jobs(user_name); // call this func with card of this user.
 					break;
-				case 3:
+				case 1:
 					print_jobs_by_location(user_name);
 					break;
-				case 4:
+				case 2:
 					// TODO:print_jobs_by_type()
 					break;
-				case 5:// log out ->start menu
-					start_menu();
-					break;
-				default:
-					System.out.println("Not a valid choice!");
+				case 3:// 
 					break;
 			}
+			}
+			else // cancel
+				break;
+
 		}
 
 	}
@@ -131,84 +117,144 @@ public class app {
 		if (users_map.get(user_name).getEmployee() instanceof Student) {
 			for (int i = 0; i < jobsList.size(); i++) {
 				if (jobsList.get(i) instanceof Student_Job && (jobsList.get(i).getLocation().equals(location))) {
-					System.out.print(jobsList.get(i));
+					ui.reg_message(jobsList.get(i).toString());
 				}
 			}
 		}
 		if (users_map.get(user_name).getEmployee() instanceof Senior) {
 			for (int i = 0; i < jobsList.size(); i++) {
 				if (jobsList.get(i) instanceof Senior_Job && (jobsList.get(i).getLocation().equals(location))) {
-					System.out.print(jobsList.get(i));
+					ui.reg_message(jobsList.get(i).toString());
 				}
 			}
 		}
 	}
 
 	public void maneger_menu() {
-		int exit = 0;
-		while (exit == 0) {
-			System.out.println("********************Maneger Menu********************");
-			System.out.println("1. add new job ");
-			System.out.println("2. delete a job");
-			System.out.println("3. show all jobs");
-			System.out.println("4. Exit");
-			System.out.println("********************************************");
-			System.out.println("Enter app number:");
-			int app = input.nextInt();
-			switch (app) {
-				case 1:
+		boolean exit = false;
+		while (!exit) {
+			String[] manager_options = {"Add new job","Delete a job", "Sow all jobs"}; //options for printing
+			int operation = ui.some_options("Job Matcher", "Maneger Menu", manager_options);
+			switch (operation) {
+				case 0:
 					add_job();
 					break;
-				case 2:
+				case 1:
 					delete_job();
 					break;
-				case 3:
+				case 2:
 					print_all_jobs();
 					break;
-				case 4:
-					exit = 1;
+				case 3:
+					exit = true;
 					break;
 				default:
-					System.out.println("Not a valid choice!");
-					break;
+					exit = true;
 			}
 		}
 
 	}
 
 	private void delete_job() {
-		print_all_jobs();
-		System.out.println("What is the number of the job you want to remove? ");
-		int app = input.nextInt();
-		if(app < 1 || app > jobsList.size()){
-			System.out.println("you are out of the list range");
+		int delete_job_index = -1;
+		//go over the job list with option to delete
+		for (int i = 0; i < jobsList.size(); i++) {
+			if (i == 0){
+				String[] button = {"delete", "next"};
+				int retval = ui.some_options("all jobs","Job num "+ (i+1) + jobsList.get(i).toString(), button);
+				if (retval == 0){
+					delete_job_index = i;
+					break;
+				}
+			}
+			if (i < jobsList.size()-1){
+				String[] button = {"back","delete","next"};
+				int retval = ui.some_options("all jobs","Job num "+ (i+1) + jobsList.get(i).toString(), button);
+				if (retval == 1){
+					delete_job_index = i;
+					break;
+				}
+				else if (retval == 0)
+					i -= 2;
+			}
+			else{ //last job in the list
+				String[] button = {"back","delete", "cancel"};
+				int retval = ui.some_options("all jobs","Job num "+ (i+1) + jobsList.get(i).toString(), button);
+				if (retval == 1){
+					delete_job_index = i;
+					break;
+				}
+				else if (retval == 0)
+					i -= 2;
+			}
 		}
-		else{
-			jobsList.remove(app-1);
-		}
-
+		if (delete_job_index != -1)
+			jobsList.remove(delete_job_index);
+			//TODO: add success message;
 	}
 
 	private void print_all_jobs(String user_name) { //
 		int j;
 		if (users_map.get(user_name).getEmployee() instanceof Student) {
+			//find the last index of student in the list:
+			int last_student_index = -1;
+			for (int i = jobsList.size()-1; i < 0 ; i--){
+				if (jobsList.get(i) instanceof Student_Job){
+					last_student_index = i;
+					break;
+				}
+			}
+			//print jobs in a loop:
 			for (int i = 0; i < jobsList.size(); i++) {
 				if (jobsList.get(i) instanceof Student_Job) {
 					j=i+1;
-					System.out.print("***Job num "+ j +"***");
-					System.out.print(jobsList.get(i));
-					System.out.println("\n");
-
+					if (i == 0){
+						String[] button = {"next"};
+						ui.some_options("all jobs","Job num "+ i+1 + jobsList.get(i).toString(), button);
+					}
+					if (i != last_student_index){
+						String[] button = {"back","next"};
+						int retval = ui.some_options("all jobs","Job num "+ j + jobsList.get(i).toString(), button);
+						if (retval == 0)
+							i -= 2;
+					}
+					else{ //last job in the list
+						String[] button = {"back"};
+						int retval = ui.some_options("all jobs","Job num "+ i+1 + jobsList.get(i).toString(), button);
+						if (retval == 0)
+							i -= 2;
+					}
 				}
 			}
 		}
 		if (users_map.get(user_name).getEmployee() instanceof Senior) {
+			//find the last index of senior job in the list:
+			int last_senior_index = -1;
+			for (int i = jobsList.size()-1; i < 0 ; i--){
+				if (jobsList.get(i) instanceof Senior_Job){
+					last_senior_index = i;
+					break;
+				}
+			}
 			for (int i = 0; i < jobsList.size(); i++) {
 				if (jobsList.get(i) instanceof Senior_Job) {
 					j=i+1;
-					System.out.print("***Job num "+ j +"***");
-					System.out.print(jobsList.get(i));
-					System.out.println("\n");
+					if (i == 0){
+						String[] button = {"next"};
+						ui.some_options("all jobs","Job num "+ j + jobsList.get(i).toString(), button);
+					}
+					if (i != last_senior_index){
+						String[] button = {"back","next"};
+						int retval = ui.some_options("all jobs","Job num "+ j + jobsList.get(i).toString(), button);
+						if (retval == 0)
+							i -= 2;
+					}
+					else{ //last job in the list
+						String[] button = {"back"};
+						int retval = ui.some_options("all jobs","Job num "+ j + jobsList.get(i).toString(), button);
+						if (retval == 0)
+							i -= 2;
+					}
 				}
 			}
 		}
@@ -218,9 +264,22 @@ public class app {
 		int j;
 		for (int i = 0; i < jobsList.size(); i++) {
 			j=i+1;
-			System.out.print("***Job num "+ j +"***");
-			System.out.print(jobsList.get(i));
-			System.out.println("\n");
+			if (i == 0){
+				String[] button = {"next"};
+				ui.some_options("all jobs","Job num "+ j + jobsList.get(i).toString(), button);
+			}
+			if (i < jobsList.size()-1){
+				String[] button = {"back","next"};
+				int retval = ui.some_options("all jobs","Job num "+ j + jobsList.get(i).toString(), button);
+				if (retval == 0)
+					i -= 2;
+			}
+			else{ //last job in the list
+				String[] button = {"back"};
+				int retval = ui.some_options("all jobs","Job num "+ j + jobsList.get(i).toString(), button);
+				if (retval == 0)
+					i -= 2;
+			};
 		}
 	}
 
