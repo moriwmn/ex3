@@ -1,11 +1,22 @@
 package ex3;
 
+import java.lang.reflect.Constructor;
+
 public class Languages {
 	private boolean python;
 	private boolean java;
 	private boolean c;
 	private boolean cpp;
 	private boolean javascript;
+
+	//default Constructor:
+	public Languages() {
+		this.python = false;
+		this.java = false;
+		this.c = false;
+		this.cpp = false;
+		this.javascript = false;
+	}
 	
 	public Languages(boolean python, boolean java, boolean c, boolean cpp, boolean javascript) {//TODO:think about better constructor
 		this.python = python;

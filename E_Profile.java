@@ -4,10 +4,21 @@ import java.util.Scanner;
 
 public class E_Profile implements Profile {
 
-	private Employee _employee; // student/ junior
+	private Employee _employee; // student/ senior
 	Scanner input = new Scanner(System.in); // Create a Scanner object
 
 	public E_Profile() {
+	}
+	public E_Profile(boolean type,String name) { //default
+		Personal_info details = new Personal_info();
+		details.setName(name);
+		Languages languages = new Languages();
+		if (type){ //0 = > student / 1=> senior
+		this. _employee = new Student(details, languages, "no_extra", "BIU", 3, 90);	 
+		}
+		else{
+		this. _employee = new Senior(details, languages, "no_extra", "CEO", 7);
+		}
 	}
 
 	// getters and setters:

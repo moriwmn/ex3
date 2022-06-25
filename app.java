@@ -18,32 +18,25 @@ public class app {
 
 	public app() {
 		passwords.put("maneger", "1800400400");
-		E_Profile e_p1 = new E_Profile();
-		users_map.put("shira", e_p1);
-		passwords.put("shira", "1111");
+
+		//add some employees and jobs for initional DB:
+		add_user_to_DB(true, "Shira", "1111");
+		add_user_to_DB(true, "Moriya", "2222");
+		add_user_to_DB(false, "Noa", "3333");
+
+		add_job_to_DB(true, "FW developer", "Apple");
+		add_job_to_DB(true, "Security Researcher", "Microsoft");
+		add_job_to_DB(false, "QA", "Intel");
+
+		// E_Profile e_p1 = new E_Profile();
+		// users_map.put("shira", e_p1);
+		// passwords.put("shira", "1111");
 	}
 
 	public void start_menu() {
 		int exit = 0;
 		while (exit == 0) {
 			int operation = ui.panel_welcome();
-			// responses[0] = "LOG-IN";
-			// responses[1] = "SIGN-IN";
-			// responses[2] = "Exit";
-			// //{"LOG-IN", "SIGN-IN", "Exit" };
-			// int operation = JOptionPane.showOptionDialog(null,
-			// "Welcome to Job Matcher!", 
-			// "welcome", 
-			// JOptionPane.YES_NO_CANCEL_OPTION, 
-			// JOptionPane.INFORMATION_MESSAGE, 
-			// logo, 
-			// responses, 
-			// null);
-			//System.out.println(" ********************Welcome to Job Matcher! ********************");
-			//System.out.println("1.LOG-IN ");
-			//System.out.println("2.SIGN-IN ");
-			//System.out.println("3.Exit ");
-			//int app = input.nextInt();
 			switch (operation) {
 				case 0:
 					login();
@@ -56,6 +49,7 @@ public class app {
 					exit = 1;
 					break;
 				default:
+					exit = 1;
 					//System.out.println("Not a valid choice!");
 					break;
 			}
@@ -284,6 +278,25 @@ public class app {
 			return true;
 		}
 		return passwords.containsKey(user_name);
+	}
+
+	public void add_user_to_DB(boolean type,String name,String password){
+		E_Profile profile = new E_Profile(type, name);
+		users_map.put(name, profile);
+		passwords.put(name, password);
+	}
+
+	public void add_job_to_DB(boolean type,String name, String company){
+		Languages languages = new Languages();
+		if(type){ //student
+		Student_Job job = new Student_Job("type", company, "location" , languages, 100, 85, 20); 
+		jobsList.add(job);	
+		}
+		else{ //senior
+		Senior_Job job = new Senior_Job("type", company, "location", languages,5 , "experience");
+		jobsList.add(job);
+		}
+		
 	}
 
 } // end of app class

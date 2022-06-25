@@ -6,6 +6,14 @@ public class Personal_info {
 	private String location;
 	private String phone;
 
+	// default constractor:
+	public Personal_info() {
+		name = "no name";
+		email = "no_mail@gmail.com";
+		location = "location";
+		phone = "050-0000000";
+	}
+	
 	// constractor:
 	public Personal_info(String name2, String email2, String location2, String phone2) {
 		name = name2;
