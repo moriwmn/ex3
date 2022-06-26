@@ -19,6 +19,9 @@ public class Student extends Employee {
 		this._gpa = _gpa;
 	}
 
+	public Student(Employee _employee) {
+	}
+
 	public String getUniversity() {
 		return _university;
 	}

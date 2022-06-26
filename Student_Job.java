@@ -12,9 +12,11 @@ public class Student_Job extends Job {
 		this._gpa_req = gpa_req;
 		this._num_of_hours = num_of_hours;
 	}
-	
+
 	@Override
 	public String toString() {
-		return super.toString()+ "\r\nwith salery per hour: "+ _salery_per_hour+"\r\nGPA requaired:"+_gpa_req+ "\r\nNum of hours per weeks:" +_num_of_hours ;
+		return super.toString() + "\r\nwith salery per hour: " + _salery_per_hour + "\r\nGPA requaired:" + _gpa_req
+				+ "\r\nNum of hours per weeks:" + _num_of_hours;
 	}
+
 }
