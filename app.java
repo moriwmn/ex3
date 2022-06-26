@@ -311,15 +311,8 @@ public class app {
 		else if (choice == 1) {type = "software";}
 		else {return;}
 
+		String[] languages = {"python","java","c","cpp","javascript"};
 		do {
-			String[] languages = {"python","java","c","cpp","javascript"};
-
-			System.out.println("what programming languages is required?");// programming langueges
-			System.out.println("1)python");
-			System.out.println("2)java");
-			System.out.println("3)c");
-			System.out.println("4)cpp");
-			System.out.println("5)javascript");
 			choice = ui.some_options("Add job", "what programming languages is required?", languages);
 			switch (choice) {
 				case 0:
@@ -338,7 +331,7 @@ public class app {
 					j_s = true;
 					break;
 			}
-			choice = ui.yes_no("Add job", "Do you want to another programming language?");
+			choice = ui.yes_no("Add job", "Do you want to add another programming language?");
 		} while (choice == 0);
 		Languages prog_language = new Languages(py, java, c, cpp, j_s);
 

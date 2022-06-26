@@ -5,7 +5,8 @@ import java.util.Scanner;
 public class E_Profile implements Profile {
 
 	private Employee _employee; // student/ senior
-	Scanner input = new Scanner(System.in); // Create a Scanner object
+	//Scanner input = new Scanner(System.in); // Create a Scanner object
+	UI ui = new UI();
 
 	public E_Profile() {
 	}
@@ -65,77 +66,62 @@ public class E_Profile implements Profile {
 	}
 
 	public void create_user_card() {
-		System.out.println("***********Create your user_card:***********");
-		System.out.println("enter your status- \n press 1 for student \n press 2 for senior");
-		int status = input.nextInt();
-		while (status != 1 && status != 2) {
-			System.out.println("Pls enter 1 or 2");
-			status = input.nextInt();
-		}
-		System.out.println("please enter your name");
-		String name = input.nextLine();
-		name = input.nextLine();
-		System.out.println("please enter your email");
-		String email = input.nextLine();
-		System.out.println("please enter your location:1)South, 2)Center, 3)North"); 
-		int location_c = input.nextInt();
-		String location=" ";
-		if(location_c==1){location="South";}
-		if(location_c==2){location="Center";}
-		if(location_c==3){location="North";}
-		System.out.println("please enter your phone number");
-		String phone = input.nextLine();
+		int status;
+		do{
+		status = ui.two_options("SIGN-IN", "Create your user_card:\n What is your status?", "Student", "Senior");
+		}while (status != 0 && status != 1);
+		String name = ui.free_input("Create user card", "please enter your name");
+		String email = ui.free_input("Create user card", "please enter your email");
+
+		String[] locations = {"South",  "Center",  "North"};
+		int location_c= ui.some_options("Create user card", "please enter your location::", locations);
+		String location= " ";
+		if(location_c==0){location="South";}
+		else if(location_c==1){location="Center";}
+		else if(location_c==2){location="North";}
+		else {return;} //TODO: check. free new_job?
+	
+		String phone = ui.free_input("Create user card", "please enter your phone number");
 		Personal_info personal_inf = new Personal_info(name, email, location, phone);
+
 		boolean py = false, java = false, c = false, cpp = false, j_s = false;
-		int app = 0;
-		int app2 = 0;
+		String[] languages = {"python","java","c","cpp","javascript"};
+		int choice = -1;
 		do {
-			System.out.println("what programming languages is required?");
-			System.out.println("1)python");
-			System.out.println("2)java");
-			System.out.println("3)c");
-			System.out.println("4)cpp");
-			System.out.println("5)javascript");
-			app = Integer.parseInt(input.nextLine());
-			switch (app) {
-				case 1:
+			choice = ui.some_options("Create user card", "which programming languages do you know?", languages);
+			switch (choice) {
+				case 0:
 					py = true;
 					break;
-				case 2:
+				case 1:
 					java = true;
 					break;
-				case 3:
+				case 2:
 					c = true;
 					break;
-				case 4:
+				case 3:
 					cpp = true;
 					break;
-				case 5:
+				case 4:
 					j_s = true;
 					break;
 			}
-			System.out.println("To add another programming language pls press 1, otherwise press on any other key:");
-			app2 = Integer.parseInt(input.nextLine());
-		} while (app2 == 1);
+			choice = ui.yes_no("Add job", "Do you want to add another programming language?");
+		} while (choice == 0);
 		Languages prog_language = new Languages(py, java, c, cpp, j_s);
-		System.out.println("enter more information");
-		String extra_inf = input.nextLine();
+		
+		if (status == 0) { // add sudent details to user card
+			int gpa = Integer.valueOf(ui.free_input("Create user card", "please enter your GPA:"));
+			String univesity = ui.free_input("Create user card", "please enter the name of the university where you are studying:");
+			int years = Integer.valueOf(ui.free_input("Create user card", "Enter num of years left till graduation"));
+			String extra_inf = ui.free_input("Create user card", "enter more information:");
 
-		if (status == 1) { // add sudent details to user card
-			System.out.println("please enter your GPA:");
-			int gpa = input.nextInt();
-			System.out.println("please enter the name of the university where you are studying:");
-			String univesity = input.nextLine();
-			univesity = input.nextLine();
-			System.out.println("Enter num of years left");
-			int years = input.nextInt();
 			_employee = new Student(personal_inf, prog_language, extra_inf, univesity, years, gpa);
 		}
-		if (status == 2) { // add senior details to user card
-			System.out.println("entar your last job");
-			String last_job = input.nextLine();
-			System.out.println("enter num years of experience ");
-			int experience = input.nextInt();
+		else if (status == 1) { // add senior details to user card
+			String last_job = ui.free_input("Create user card", "Entar your last job:");
+			int experience = Integer.valueOf(ui.free_input("Create user card", "enter num years of experience"));
+			String extra_inf = ui.free_input("Create user card", "enter more information:");
 			_employee = new Senior(personal_inf, prog_language, extra_inf, last_job, experience);
 		}
 	}
