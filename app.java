@@ -4,12 +4,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
+import javax.lang.model.util.ElementScanner14;
+
 public class app {
 
 	HashMap<String, E_Profile> users_map = new HashMap<String, E_Profile>(); // user name->profile
 	HashMap<String, String> passwords = new HashMap<String, String>(); // user name->password
 	ArrayList<Job> jobsList = new ArrayList<Job>();
-	Scanner input = new Scanner(System.in); // Create a Scanner object
+	//Scanner input = new Scanner(System.in); // Create a Scanner object
 	//for printing:
 	UI ui = new UI();
 	// ImageIcon logo = new ImageIcon("logo.png");
@@ -48,7 +50,7 @@ public class app {
 					exit = true;
 			}
 		}
-		input.close();
+		//input.close();
 
 	}
 
@@ -268,7 +270,7 @@ public class app {
 				String[] button = {"next"};
 				ui.some_options("all jobs","Job num "+ j + jobsList.get(i).toString(), button);
 			}
-			if (i < jobsList.size()-1){
+			else if (i < jobsList.size()-1){
 				String[] button = {"back","next"};
 				int retval = ui.some_options("all jobs","Job num "+ j + jobsList.get(i).toString(), button);
 				if (retval == 0)
@@ -285,87 +287,76 @@ public class app {
 
 	public void add_job() {
 		Job new_job;
-		int app2, app = 0;
+		int choice = -1;
 		String Job_type = " ", type = " ";
 		boolean py = false, java = false, c = false, cpp = false, j_s = false;
-		System.out.println("what is the position type? 1)Student, 2)Senior");// Job type
-		app = input.nextInt();
-		while (app != 1 && app != 2) {
-			System.out.println("Pls enter 1 or 2");
-			app = input.nextInt();
-		}
-		if (app == 1) {
+		choice = ui.two_options("Add job", "Add new job:", "Student job", "Senior job");
+		if (choice == 0)
 			Job_type = "student";
-		} else if (app == 2) {
+		else if (choice == 1)
 			Job_type = "senior";
-		}
-		
-		System.out.println("what is the job location?-1)South, 2) Center, 3) North ");// Job location 
-		int location_c= input.nextInt();//TODO:input check
+		else 
+			return;
+
+		String[] locations = {"South",  "Center",  "North"};
+		int location_c= ui.some_options("Add job", "Please choose the job location:", locations);
 		String location= " ";
-		if(location_c==1){location="South";}
-		if(location_c==2){location="Center";}
-		if(location_c==3){location="North";}
-		location = input.nextLine();
-		System.out.println("what is the job Erea? 1)Hardware, 2)Software"); // Job field
-		app = input.nextInt();
-		while (app != 1 && app != 2) {
-			System.out.println("Pls enter 1 or 2");
-			app = input.nextInt();
-		}
-		if (app == 1) {
-			type = "hardware";
-		} else if (app == 2) {
-			type = "software";
-		}
+		if(location_c==0){location="South";}
+		else if(location_c==1){location="Center";}
+		else if(location_c==2){location="North";}
+		else {return;} //TODO: check. free new_job?
+	
+		choice = ui.two_options("Add job", "what is the job Erea?", "Hardware", "Software");
+		if (choice == 0) {type = "hardware";} 
+		else if (choice == 1) {type = "software";}
+		else {return;}
+
 		do {
+			String[] languages = {"python","java","c","cpp","javascript"};
+
 			System.out.println("what programming languages is required?");// programming langueges
 			System.out.println("1)python");
 			System.out.println("2)java");
 			System.out.println("3)c");
 			System.out.println("4)cpp");
 			System.out.println("5)javascript");
-			app = input.nextInt();
-			switch (app) {
-				case 1:
+			choice = ui.some_options("Add job", "what programming languages is required?", languages);
+			switch (choice) {
+				case 0:
 					py = true;
 					break;
-				case 2:
+				case 1:
 					java = true;
 					break;
-				case 3:
+				case 2:
 					c = true;
 					break;
-				case 4:
+				case 3:
 					cpp = true;
 					break;
-				case 5:
+				case 4:
 					j_s = true;
 					break;
 			}
-			System.out.println("To add another programming language pls press 1, otherwise press on any other key:");
-			app2 = input.nextInt();
-		} while (app2 == 1);
+			choice = ui.yes_no("Add job", "Do you want to another programming language?");
+		} while (choice == 0);
 		Languages prog_language = new Languages(py, java, c, cpp, j_s);
-		System.out.println("what is the company name?"); // company name
-		String company = input.nextLine();
-		company = input.nextLine();
+
+		String company = ui.free_input("Add job", "what is the company name?");
 		if (Job_type.equals("student")) { // stuednt
-			System.out.println("Please enter a required GPA");
-			int gpa_req = input.nextInt();
-			System.out.println("Please enter a salary per hour");
-			int salary = input.nextInt();
-			System.out.println("Please enter a num of hours in week");
-			int num_hours = input.nextInt();
+			int gpa_req = Integer.valueOf(ui.free_input("Add job", "Please enter a required GPA"));
+			int salary = Integer.valueOf(ui.free_input("Add job", "Please enter a salary per hour"));
+			int num_hours = Integer.valueOf(ui.free_input("Add job", "Please enter a num of hours in week"));
+			//TODO: input validation. maybe: oone window for all 3?
 			new_job = new Student_Job(type, company, location, prog_language, salary, gpa_req, num_hours);
 		} else {// senior
-			System.out.println("Please enter a required experience");
-			String experience = input.nextLine();
-			System.out.println("Please enter a required num of seniority");
-			int seniority = input.nextInt();
+			String experience = ui.free_input("Add job", "Please enter a required experience");
+			int seniority = Integer.valueOf(ui.free_input("Add job", "Please enter a required num of seniority"));
+			//TODO: input validation.
 			new_job = new Senior_Job(type, company, location, prog_language, seniority, experience);
 		}
 		this.jobsList.add(new_job);
+		ui.reg_message("The job was successfully added");
 	}
 
 	public boolean isExist(String user_name, String password) {
