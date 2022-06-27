@@ -2,9 +2,8 @@ package ex3;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Scanner;
+//import java.util.Scanner;
 
-import javax.lang.model.util.ElementScanner14;
 
 public class app {
 
@@ -89,10 +88,12 @@ public class app {
 			int choice = ui.two_options("Menu", "what do you want to do:", "Edit my profile", "Find my next Job");
 			if (choice == 0) { // My profile
 				users_map.get(user_name).menu();
-			} else if (choice == 1) { // Find my next Job
-				String[] find_job_options = { "Show all jobs", "Show job by lcation", "Show job by type" }; // options
-																											// for
-																											// printing
+			} 
+			else if (choice == 1) { // Find my next Job
+				String[] find_job_options = { "Show all jobs", 
+				"Show job by lcation", 
+				"Show job by type",
+				"find my dream job" }; // options for printing
 				int operation = ui.some_options("Job Matcher", "Find my next Job", find_job_options);
 				switch (operation) {
 					case 0: // print all jobs (according to the employee type- student/senior)
@@ -107,7 +108,8 @@ public class app {
 					case 3://
 						break;
 				}
-			} else // cancel
+			} 
+			else // cancel
 				break;
 
 		}
@@ -169,21 +171,24 @@ public class app {
 					break;
 				}
 			}
-			if (i < jobsList.size() - 1) {
+			else if (i < jobsList.size() - 1) {
 				String[] button = { "back", "delete", "next" };
 				int retval = ui.some_options("all jobs", "Job num " + (i + 1) + jobsList.get(i).toString(), button);
 				if (retval == 1) {
 					delete_job_index = i;
 					break;
-				} else if (retval == 0)
+				} 
+				else if (retval == 0)
 					i -= 2;
-			} else { // last job in the list
+			} 
+			else { // last job in the list
 				String[] button = { "back", "delete", "cancel" };
 				int retval = ui.some_options("all jobs", "Job num " + (i + 1) + jobsList.get(i).toString(), button);
 				if (retval == 1) {
 					delete_job_index = i;
 					break;
-				} else if (retval == 0)
+				} 
+				else if (retval == 0)
 					i -= 2;
 			}
 		}
@@ -193,7 +198,6 @@ public class app {
 	}
 
 	private void print_all_jobs(String user_name) { //
-		int j;
 		if (users_map.get(user_name).getEmployee() instanceof Student) {
 			// find the last index of student in the list:
 			int last_student_index = -1;
@@ -206,19 +210,19 @@ public class app {
 			// print jobs in a loop:
 			for (int i = 0; i < jobsList.size(); i++) {
 				if (jobsList.get(i) instanceof Student_Job) {
-					j = i + 1;
 					if (i == 0) {
 						String[] button = { "next" };
-						ui.some_options("all jobs", "Job num " + i + 1 + jobsList.get(i).toString(), button);
+						ui.some_options("all jobs", "Job num " + (i+1) + jobsList.get(i).toString(), button);
 					}
-					if (i != last_student_index) {
+					else if (i != last_student_index) {
 						String[] button = { "back", "next" };
-						int retval = ui.some_options("all jobs", "Job num " + j + jobsList.get(i).toString(), button);
+						int retval = ui.some_options("all jobs", "Job num " + (i+1) + jobsList.get(i).toString(), button);
 						if (retval == 0)
 							i -= 2;
-					} else { // last job in the list
+					} 
+					else { // last job in the list
 						String[] button = { "back" };
-						int retval = ui.some_options("all jobs", "Job num " + i + 1 + jobsList.get(i).toString(),
+						int retval = ui.some_options("all jobs", "Job num " + (i+1) + jobsList.get(i).toString(),
 								button);
 						if (retval == 0)
 							i -= 2;
@@ -237,19 +241,18 @@ public class app {
 			}
 			for (int i = 0; i < jobsList.size(); i++) {
 				if (jobsList.get(i) instanceof Senior_Job) {
-					j = i + 1;
 					if (i == 0) {
 						String[] button = { "next" };
-						ui.some_options("all jobs", "Job num " + j + jobsList.get(i).toString(), button);
+						ui.some_options("all jobs", "Job num " + (i+1) + jobsList.get(i).toString(), button);
 					}
 					if (i != last_senior_index) {
 						String[] button = { "back", "next" };
-						int retval = ui.some_options("all jobs", "Job num " + j + jobsList.get(i).toString(), button);
+						int retval = ui.some_options("all jobs", "Job num " + (i+1) + jobsList.get(i).toString(), button);
 						if (retval == 0)
 							i -= 2;
 					} else { // last job in the list
 						String[] button = { "back" };
-						int retval = ui.some_options("all jobs", "Job num " + j + jobsList.get(i).toString(), button);
+						int retval = ui.some_options("all jobs", "Job num " + (i+1) + jobsList.get(i).toString(), button);
 						if (retval == 0)
 							i -= 2;
 					}
@@ -259,20 +262,19 @@ public class app {
 	}
 
 	private void print_all_jobs() {// for maneger
-		int j;
+
 		for (int i = 0; i < jobsList.size(); i++) {
-			j = i + 1;
 			if (i == 0) {
 				String[] button = { "next" };
-				ui.some_options("all jobs", "Job num " + j + jobsList.get(i).toString(), button);
+				ui.some_options("all jobs", "Job num " + (i+1) + jobsList.get(i).toString(), button);
 			} else if (i < jobsList.size() - 1) {
 				String[] button = { "back", "next" };
-				int retval = ui.some_options("all jobs", "Job num " + j + jobsList.get(i).toString(), button);
+				int retval = ui.some_options("all jobs", "Job num " + (i+1) + jobsList.get(i).toString(), button);
 				if (retval == 0)
 					i -= 2;
 			} else { // last job in the list
 				String[] button = { "back" };
-				int retval = ui.some_options("all jobs", "Job num " + j + jobsList.get(i).toString(), button);
+				int retval = ui.some_options("all jobs", "Job num " + (i+1) + jobsList.get(i).toString(), button);
 				if (retval == 0)
 					i -= 2;
 			}

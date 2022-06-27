@@ -1,6 +1,6 @@
 package ex3;
 
-import java.util.Scanner;
+//import java.util.Scanner;
 
 public class E_Profile implements Profile {
 
