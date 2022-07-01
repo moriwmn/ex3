@@ -65,10 +65,9 @@ public class E_Profile implements Profile {
 	public void menu() {
 		boolean exit = false;
 		while (!exit) {
-			String change = "null";
-			if (status == 0) {
+			if (this.status == 0) {
 				student_changes();
-			} else if (status == 1) {
+			} else if (this.status == 1) {
 				senior_changes();
 			} else {
 				exit = true;
@@ -81,7 +80,7 @@ public class E_Profile implements Profile {
 		boolean exit = false;
 		while (!exit) {
 			String change = "null";
-			String[] option = { "Change name", "Change email", "change Phone number", "Change your Year",
+			String[] option = { "Change name", "Change email", "change Phone number", "Change your University Year",
 					"change your GPA", "show my user card" };
 			int choice = ui.some_options("Menu", "Edit your user card:", option);
 			switch (choice) {
@@ -98,12 +97,12 @@ public class E_Profile implements Profile {
 					_employee.setPhone(change);
 					break;
 				case 3://
-					change = ui.free_input("Change Year ", "Please enter the new Year:");
-					// _employee.setYearsNum(change); //TODO how get the student parameters
+					change = ui.free_input("Change Study Year ", "Please enter the new Year:");
+					((Student) _employee).setYearsNum(Integer.valueOf(change));; //TODO how get the student parameters
 					break;
 				case 4:
 					change = ui.free_input("Change your GPA ", "Please enter the new GPA:");
-					// _employee.setYearsNum(change); //TODO how get the student parameters
+					((Student) _employee).setGpa(Integer.valueOf(change));; //TODO how get the student parameters
 					break;
 				case 5:
 					show_senior_card();
@@ -113,6 +112,7 @@ public class E_Profile implements Profile {
 					break;
 				default:
 					exit = true;
+					break;
 			}
 		}
 	}
@@ -139,11 +139,11 @@ public class E_Profile implements Profile {
 					break;
 				case 3://
 					change = ui.free_input("Change num of experiance ", "Please enter the new num of experiance:");
-					// _employee.setNumOfExperience(change); //TODO how get the senior parameters
+					((Senior) _employee).set_seniority(Integer.valueOf(change)); //TODO how get the senior parameters
 					break;
 				case 4:
 					change = ui.free_input("add more detials ", "Please enter more detials:");
-					// _employee.setYearsNum(change); //TODO how get the senior parameters
+					_employee.setExtraInf(change);; //TODO how get the senior parameters
 					break;
 				case 5:
 					show_senior_card();

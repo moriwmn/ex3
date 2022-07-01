@@ -13,4 +13,20 @@ public class Senior extends Employee {
         this._seniority = experience;
     }
 
+    public String get_last_job() {
+        return _last_job;
+    }
+
+    public void set_last_job(String _last_job) {
+        this._last_job = _last_job;
+    }
+
+    public int get_seniority() {
+        return _seniority;
+    }
+
+    public void set_seniority(int _seniority) {
+        this._seniority = _seniority;
+    }
+
 }
