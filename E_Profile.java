@@ -126,7 +126,7 @@ public class E_Profile implements Profile {
 					break;
 				case 4:
 					change = ui.free_input("Change your GPA ", "Please enter the new GPA:");
-					((Student) _employee).setGpa(Integer.valueOf(change));
+					gpa_isValid(Integer.valueOf(change));
 					break;
 				case 5:
 					show_user_card();
@@ -261,11 +261,11 @@ public class E_Profile implements Profile {
 
 		if (status == 0) { // add sudent details to user card
 			int gpa = Integer.valueOf(ui.free_input("Create user card", "please enter your GPA:"));
+			gpa_isValid(gpa);
 			String univesity = ui.free_input("Create user card",
 					"please enter the name of the university where you are studying:");
 			int years = Integer.valueOf(ui.free_input("Create user card", "Enter num of years left till graduation"));
 			String extra_inf = ui.free_input("Create user card", "enter more information:");
-
 			_employee = new Student(personal_inf, prog_language, extra_inf, univesity, years, gpa);
 		} else if (status == 1) { // add senior details to user card
 			String last_job = ui.free_input("Create user card", "Entar your last job:");
@@ -283,5 +283,13 @@ public class E_Profile implements Profile {
 			phone = ui.free_input("Create user card", "please enter your phone number");
 		}
 		this._employee.setPhone(phone);
+	}
+
+	public void gpa_isValid(int gpa) {
+		while (gpa < 0 || gpa > 100) {
+			ui.reg_message("this GPA invaild pls enter num in range");
+			gpa = Integer.valueOf(ui.free_input("Create user card", "please enter your GPA"));
+		}
+		((Student) _employee).setGpa(gpa);
 	}
 }// end E_profile
