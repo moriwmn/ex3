@@ -80,13 +80,37 @@ public class E_Profile implements Profile {
 		boolean exit = false;
 		while (!exit) {
 			String change = "null";
-			String[] option = { "Change name", "Change email", "change Phone number", "Change your University Year",
+			String[] option = { "add programming languages", "Change email", "change Phone number",
+					"Change your University Year",
 					"change your GPA", "show my user card" };
 			int choice = ui.some_options("Menu", "Edit your user card:", option);
 			switch (choice) {
 				case 0:
-					change = ui.free_input("Change Name", "Please enter new name:");
-					_employee.setName(change);
+					String[] languages = { "python", "java", "c", "cpp", "javascript" };
+					int choice1 = -1;
+					do {
+						choice1 = ui.some_options("add a programming language",
+								"which programming languages do you want add?", languages);
+						switch (choice1) {
+							case 0:
+								_employee.setPython(true);
+								break;
+							case 1:
+								_employee.setJava(true);
+								break;
+							case 2:
+								_employee.setC(true);
+								break;
+							case 3:
+								_employee.setCpp(true);
+								break;
+							case 4:
+								_employee.setJavascript(true);
+								break;
+						}
+						choice = ui.yes_no("add a programming language",
+								"Do you want to add another programming language?");
+					} while (choice == 0);
 					break;
 				case 1:
 					change = ui.free_input("Change email", "Please enter new email:");
@@ -94,18 +118,18 @@ public class E_Profile implements Profile {
 					break;
 				case 2:
 					change = ui.free_input("Change phone number", "Please enter new phone number:");
-					_employee.setPhone(change);
+					phone_num_isValid(change);
 					break;
 				case 3://
 					change = ui.free_input("Change Study Year ", "Please enter the new Year:");
-					((Student) _employee).setYearsNum(Integer.valueOf(change));; //TODO how get the student parameters
+					((Student) _employee).setYearsNum(Integer.valueOf(change));
 					break;
 				case 4:
 					change = ui.free_input("Change your GPA ", "Please enter the new GPA:");
-					((Student) _employee).setGpa(Integer.valueOf(change));; //TODO how get the student parameters
+					((Student) _employee).setGpa(Integer.valueOf(change));
 					break;
 				case 5:
-					show_senior_card();
+					show_user_card();
 					break;
 				case 6:
 					exit = true;
@@ -121,13 +145,37 @@ public class E_Profile implements Profile {
 		boolean exit = false;
 		while (!exit) {
 			String change = "null";
-			String[] option = { "Change name", "Change email", "change Phone number", "Change num of experience",
+			String[] option = { "add programming languages", "Change email", "change Phone number",
+					"Change num of experience",
 					"add more detials", "show my user card" };
 			int choice = ui.some_options("Menu", "Edit your user card:", option);
 			switch (choice) {
 				case 0:
-					change = ui.free_input("Change Name", "Please enter new name:");
-					_employee.setName(change);
+					String[] languages = { "python", "java", "c", "cpp", "javascript" };
+					int choice1 = -1;
+					do {
+						choice1 = ui.some_options("add a programming language",
+								"which programming languages do you want add?", languages);
+						switch (choice1) {
+							case 0:
+								_employee.setPython(true);
+								break;
+							case 1:
+								_employee.setJava(true);
+								break;
+							case 2:
+								_employee.setC(true);
+								break;
+							case 3:
+								_employee.setCpp(true);
+								break;
+							case 4:
+								_employee.setJavascript(true);
+								break;
+						}
+						choice = ui.yes_no("add a programming language",
+								"Do you want to add another programming language?");
+					} while (choice == 0);
 					break;
 				case 1:
 					change = ui.free_input("Change email", "Please enter new email:");
@@ -135,18 +183,19 @@ public class E_Profile implements Profile {
 					break;
 				case 2:
 					change = ui.free_input("Change phone number", "Please enter new phone number:");
+					phone_num_isValid(change);
 					_employee.setPhone(change);
 					break;
 				case 3://
 					change = ui.free_input("Change num of experiance ", "Please enter the new num of experiance:");
-					((Senior) _employee).set_seniority(Integer.valueOf(change)); //TODO how get the senior parameters
+					((Senior) _employee).set_seniority(Integer.valueOf(change));
 					break;
 				case 4:
 					change = ui.free_input("add more detials ", "Please enter more detials:");
-					_employee.setExtraInf(change);; //TODO how get the senior parameters
+					_employee.setExtraInf(change);
 					break;
 				case 5:
-					show_senior_card();
+					show_user_card();
 					break;
 				case 6:
 					exit = true;
@@ -157,12 +206,8 @@ public class E_Profile implements Profile {
 		}
 	}
 
-	public void show_senior_card() {
-		// TODO print to screen the user card;
-	}
-
-	public void show_student_card() {
-		// TODO print to screen the user card;
+	public void show_user_card() {
+		ui.reg_message("my user card", _employee.toString());
 	}
 
 	public void create_user_card() {
@@ -173,7 +218,7 @@ public class E_Profile implements Profile {
 		String email = ui.free_input("Create user card", "please enter your email");
 
 		String[] locations = { "South", "Center", "North" };
-		int location_c = ui.some_options("Create user card", "please enter your location::", locations);
+		int location_c = ui.some_options("Create user card", "please enter your location:", locations);
 		String location = " ";
 		if (location_c == 0) {
 			location = "South";
@@ -183,11 +228,11 @@ public class E_Profile implements Profile {
 			location = "North";
 		} else {
 			return;
-		} // TODO: check. free new_job?
+		}
 
 		String phone = ui.free_input("Create user card", "please enter your phone number");
+		phone_num_isValid(phone);
 		Personal_info personal_inf = new Personal_info(name, email, location, phone);
-
 		boolean py = false, java = false, c = false, cpp = false, j_s = false;
 		String[] languages = { "python", "java", "c", "cpp", "javascript" };
 		int choice = -1;
@@ -230,4 +275,13 @@ public class E_Profile implements Profile {
 		}
 	}
 
-}// end of class
+	// validtion:
+
+	public void phone_num_isValid(String phone) {
+		while (phone.length() != 9 && phone.length() != 10) {
+			ui.reg_message("this phone number invaild pls enter valid value");
+			phone = ui.free_input("Create user card", "please enter your phone number");
+		}
+		this._employee.setPhone(phone);
+	}
+}// end E_profile

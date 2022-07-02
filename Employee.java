@@ -107,4 +107,11 @@ public abstract class Employee {// implements User {
 	public void setExtraInf(String extra) {
 		_extraInf = extra;
 	}
-}
+
+	@Override
+	public String toString() {
+		return "\r\n name:" + this._details.getName() + "\r\n email:" + this._details.getEmail() +
+				"\r\n phone number:" + this._details.getPhone() + "\r\n programming languages:"
+				+ this._language.toString();
+	}
+} // end Employee

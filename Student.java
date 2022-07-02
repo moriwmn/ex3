@@ -46,4 +46,9 @@ public class Student extends Employee {
 		_gpa = gpa;
 	}
 
-}
+	@Override
+	public String toString() {
+		return super.toString() + "\r\n university:" + this._university + "\r\n GPA :" + this._gpa
+				+ "\r\n study Year:" + this._years_num + "\r\n more info:" + this._extraInf;
+	}
+} // end Student

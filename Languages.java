@@ -1,6 +1,5 @@
 package ex3;
 
-
 public class Languages {
 	private boolean python;
 	private boolean java;
@@ -67,4 +66,25 @@ public class Languages {
 		this.javascript = javascript;
 	}
 
-}
+	@Override
+	public String toString() {
+		String lang = "";
+		if (this.python == true) {
+			lang += "**pyhton**  ";
+		}
+		if (this.java == true) {
+			lang += "**java**  ";
+		}
+		if (this.c == true) {
+			lang += "**C**  ";
+		}
+		if (this.cpp == true) {
+			lang += "**Cpp**  ";
+		}
+		if (this.javascript == true) {
+			lang += "**javaScript**  ";
+		}
+		return " " + lang;
+	}
+
+} // end class

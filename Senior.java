@@ -29,4 +29,9 @@ public class Senior extends Employee {
         this._seniority = _seniority;
     }
 
-}
+    @Override
+    public String toString() {
+        return super.toString() + "\r\n last job:" + this._last_job + "\r\n experiance:" + this._seniority
+                + "\r\n more info:" + this._extraInf;
+    }
+}// end Senior

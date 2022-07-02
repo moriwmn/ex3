@@ -13,7 +13,7 @@ public class Personal_info {
 		location = "location";
 		phone = "050-0000000";
 	}
-	
+
 	// constractor:
 	public Personal_info(String name2, String email2, String location2, String phone2) {
 		name = name2;
@@ -53,6 +53,7 @@ public class Personal_info {
 
 	public void setPhone(String phone) {
 		this.phone = phone;
+
 	}
 
 }
