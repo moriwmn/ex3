@@ -118,7 +118,7 @@ public class E_Profile implements Profile {
 					break;
 				case 2:
 					change = ui.free_input("Change phone number", "Please enter new phone number:");
-					phone_num_isValid(change);
+					this._employee.setPhone(phone_num_isValid(change));
 					break;
 				case 3://
 					change = ui.free_input("Change Study Year ", "Please enter the new Year:");
@@ -126,7 +126,7 @@ public class E_Profile implements Profile {
 					break;
 				case 4:
 					change = ui.free_input("Change your GPA ", "Please enter the new GPA:");
-					gpa_isValid(Integer.valueOf(change));
+					((Student) _employee).setGpa(gpa_isValid(Integer.valueOf(change)));
 					break;
 				case 5:
 					show_user_card();
@@ -183,7 +183,7 @@ public class E_Profile implements Profile {
 					break;
 				case 2:
 					change = ui.free_input("Change phone number", "Please enter new phone number:");
-					phone_num_isValid(change);
+					this._employee.setPhone(phone_num_isValid(change));
 					_employee.setPhone(change);
 					break;
 				case 3://
@@ -231,7 +231,7 @@ public class E_Profile implements Profile {
 		}
 
 		String phone = ui.free_input("Create user card", "please enter your phone number");
-		phone_num_isValid(phone);
+		phone = phone_num_isValid(phone);
 		Personal_info personal_inf = new Personal_info(name, email, location, phone);
 		boolean py = false, java = false, c = false, cpp = false, j_s = false;
 		String[] languages = { "python", "java", "c", "cpp", "javascript" };
@@ -261,7 +261,7 @@ public class E_Profile implements Profile {
 
 		if (status == 0) { // add sudent details to user card
 			int gpa = Integer.valueOf(ui.free_input("Create user card", "please enter your GPA:"));
-			gpa_isValid(gpa);
+			gpa = gpa_isValid(gpa);
 			String univesity = ui.free_input("Create user card",
 					"please enter the name of the university where you are studying:");
 			int years = Integer.valueOf(ui.free_input("Create user card", "Enter num of years left till graduation"));
@@ -277,19 +277,19 @@ public class E_Profile implements Profile {
 
 	// validtion:
 
-	public void phone_num_isValid(String phone) {
+	public String phone_num_isValid(String phone) {
 		while (phone.length() != 9 && phone.length() != 10) {
 			ui.reg_message("this phone number invaild pls enter valid value");
 			phone = ui.free_input("Create user card", "please enter your phone number");
 		}
-		this._employee.setPhone(phone);
+		return phone;
 	}
 
-	public void gpa_isValid(int gpa) {
+	public int gpa_isValid(int gpa) {
 		while (gpa < 0 || gpa > 100) {
 			ui.reg_message("this GPA invaild pls enter num in range");
 			gpa = Integer.valueOf(ui.free_input("Create user card", "please enter your GPA"));
 		}
-		((Student) _employee).setGpa(gpa);
+		return gpa;
 	}
 }// end E_profile
