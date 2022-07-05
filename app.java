@@ -30,9 +30,17 @@ public class app {
 		add_user_to_DB(true, "Moriya", "2222");
 		add_user_to_DB(false, "Noa", "3333");
 
-		add_job_to_DB(true, "FW developer", "Apple");
-		add_job_to_DB(true, "Security Researcher", "Microsoft");
-		add_job_to_DB(false, "QA", "Intel");
+
+		//create DB
+
+		//student jobs:
+		add_job_to_DB(true, "SW developer", "Sony", true, false, false,false,false, "Center", 85, 100 );
+		add_job_to_DB(true, "FW developer", "Apple", true, false, true,false,false, "North", 90, 92);
+		add_job_to_DB(true, "Security Researcher", "Microsoft", true, false, true,true,false, "Center", 90, 110);
+		add_job_to_DB(true, "DevOps", "Elta", true, false, true,false ,true, "Center", 80, 80);
+		
+		//Senior jobs:
+		add_job_to_DB(false, "QA", "Intel", true, false, false,false,true, "Center", 5, 0);
 
 	}
 
@@ -594,13 +602,13 @@ public class app {
 		passwords.put(name, password);
 	}
 
-	public void add_job_to_DB(boolean type, String name, String company) {
-		Languages languages = new Languages();
+	public void add_job_to_DB(boolean type, String name, String company, boolean python, boolean java, boolean c, boolean cpp, boolean javascript, String location, int gpa_or_seniority, int salery) {
+		Languages languages = new Languages( python,  java,  c,  cpp,  javascript);
 		if (type) { // student
-			Student_Job job = new Student_Job("type", company, "North", languages, 100, 85, 20);
+			Student_Job job = new Student_Job("type", company, location, languages, salery, gpa_or_seniority , 20);
 			jobsList.add(job);
 		} else { // senior
-			Senior_Job job = new Senior_Job("type", company, "South", languages, 5, "experience");
+			Senior_Job job = new Senior_Job("type", company, location, languages,gpa_or_seniority, " ");
 			jobsList.add(job);
 		}
 
