@@ -2,7 +2,7 @@ package ex3;
 
 public abstract class Job {
 	
-private String type; //job for student/junior/senior
+private String type; //job for student/senior
 private String Company;	
 private String location;
 Languages prog_language;
@@ -31,6 +31,13 @@ public String getCompany() {
 }
 public void setCompany(String company) {
 	Company = company;
+}
+
+public Languages getLanguages() {
+	return prog_language;
+}
+public void setLanguages(Languages languages) {
+	prog_language = languages;
 }
 
 @Override

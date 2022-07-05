@@ -66,6 +66,22 @@ public class Languages {
 		this.javascript = javascript;
 	}
 
+	public int How_many_lang(){
+		int counter = 0;
+		if (this.isC())
+			counter++;
+		if (this.isCpp())
+			counter++;
+		if (this.isPython())
+			counter++;
+		if (this.isJava())
+			counter++;
+		if (this.isJavascript())
+			counter++;
+		return counter;
+		
+	}
+
 	@Override
 	public String toString() {
 		String lang = "";

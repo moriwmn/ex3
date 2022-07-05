@@ -63,65 +63,38 @@ public class E_Profile implements Profile {
 	// func:
 	@Override
 	public void menu() {
-		boolean exit = false;
-		while (!exit) {
-			if (this.status == 0) {
+			if (this.status == 0) 
 				student_changes();
-			} else if (this.status == 1) {
+			else if (this.status == 1)
 				senior_changes();
-			} else {
-				exit = true;
-			}
-
-		}
 	}
 
 	public void student_changes() {// TODO how exit from this window
 		boolean exit = false;
 		while (!exit) {
 			String change = "null";
-			String[] option = { "add programming languages", "Change email", "change Phone number",
-					"Change your University Year",
-					"change your GPA", "show my user card" };
+			String[] option = { "add programming languages", 
+								"Change email", 
+								"change Phone number",
+								"Change your University Year",
+								"change your GPA", 
+								"show my user card",
+								"exit" };
 			int choice = ui.some_options("Menu", "Edit your user card:", option);
 			switch (choice) {
 				case 0:
-					String[] languages = { "python", "java", "c", "cpp", "javascript" };
-					int choice1 = -1;
-					do {
-						choice1 = ui.some_options("add a programming language",
-								"which programming languages do you want add?", languages);
-						switch (choice1) {
-							case 0:
-								_employee.setPython(true);
-								break;
-							case 1:
-								_employee.setJava(true);
-								break;
-							case 2:
-								_employee.setC(true);
-								break;
-							case 3:
-								_employee.setCpp(true);
-								break;
-							case 4:
-								_employee.setJavascript(true);
-								break;
-						}
-						choice = ui.yes_no("add a programming language",
-								"Do you want to add another programming language?");
-					} while (choice == 0);
+					change_lang();
 					break;
 				case 1:
 					change = ui.free_input("Change email", "Please enter new email:");
 					_employee.setEmail(change);
 					break;
 				case 2:
-					change = ui.free_input("Change phone number", "Please enter new phone number:");
+					change = ui.free_input("Change phone number", "Please enter new phone number: (digits only)");
 					this._employee.setPhone(phone_num_isValid(change));
 					break;
-				case 3://
-					change = ui.free_input("Change Study Year ", "Please enter the new Year:");
+				case 3:
+						change = ui.free_input("Change Study Year ", "Please enter the new Year: (a number)");	
 					((Student) _employee).setYearsNum(Integer.valueOf(change));
 					break;
 				case 4:
@@ -182,7 +155,7 @@ public class E_Profile implements Profile {
 					_employee.setEmail(change);
 					break;
 				case 2:
-					change = ui.free_input("Change phone number", "Please enter new phone number:");
+					change = ui.free_input("Change phone number", "Please enter new phone number: (digits only)");
 					this._employee.setPhone(phone_num_isValid(change));
 					_employee.setPhone(change);
 					break;
@@ -287,9 +260,37 @@ public class E_Profile implements Profile {
 
 	public int gpa_isValid(int gpa) {
 		while (gpa < 0 || gpa > 100) {
-			ui.reg_message("this GPA invaild pls enter num in range");
+			ui.reg_message("this GPA is invaild. pls enter num in range 0-100");
 			gpa = Integer.valueOf(ui.free_input("Create user card", "please enter your GPA"));
 		}
 		return gpa;
+	}
+
+	public void change_lang(){
+		String[] languages = { "python", "java", "c", "cpp", "javascript" };
+					int choice1 = -1;
+					do {
+						choice1 = ui.some_options("add a programming language",
+								"which programming languages do you want add?", languages);
+						switch (choice1) {
+							case 0:
+								_employee.setPython(true);
+								break;
+							case 1:
+								_employee.setJava(true);
+								break;
+							case 2:
+								_employee.setC(true);
+								break;
+							case 3:
+								_employee.setCpp(true);
+								break;
+							case 4:
+								_employee.setJavascript(true);
+								break;
+						}
+						choice1 = ui.yes_no("add a programming language",
+								"Do you want to add another programming language?");
+					} while (choice1 == 0);
 	}
 }// end E_profile

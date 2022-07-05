@@ -13,6 +13,18 @@ public class Student_Job extends Job {
 		this._num_of_hours = num_of_hours;
 	}
 
+	public int getGpa(){
+		return this._gpa_req;
+	}
+
+	public int getNumOfHours(){
+		return this._num_of_hours;
+	}
+
+	public int getSaleryPerHour(){
+		return this._salery_per_hour;
+	}
+
 	@Override
 	public String toString() {
 		return super.toString() + "\r\nwith salery per hour: " + _salery_per_hour + "\r\nGPA requaired:" + _gpa_req

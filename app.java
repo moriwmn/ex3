@@ -1,8 +1,14 @@
 package ex3;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
-//import java.util.Scanner;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Set;
+
+import javax.lang.model.util.ElementScanner14;
 
 
 public class app {
@@ -103,9 +109,11 @@ public class app {
 						print_jobs_by_location(user_name);
 						break;
 					case 2:
+						
 						// TODO:print_jobs_by_type()
 						break;
 					case 3://
+						find_the_dream_job(user_name);
 						break;
 				}
 			} 
@@ -133,6 +141,211 @@ public class app {
 			}
 		}
 	}
+
+	private void find_the_dream_job(String user_name){
+		//this function gives a csore to each job in the job-list, for specific parameters
+		//the parameters are fit to the employee's status 
+		//and are calculeted according to the employee's profile,
+
+		HashMap<Integer,Integer> scores = new HashMap<Integer,Integer>();
+		int score;
+
+		if (users_map.get(user_name).getEmployee() instanceof Student) {
+			for (int i = 0; i < jobsList.size(); i++) { //for each job
+				if (jobsList.get(i) instanceof Student_Job ) {
+					score = 0;
+					score += score_lang(user_name,i);
+					score += score_location(user_name,i);
+					score += score_gpa(user_name, i);
+					scores.put(i,score);
+				}
+				else{
+					scores.put(i,-1);
+				}
+			}
+		}
+		if (users_map.get(user_name).getEmployee() instanceof Senior) {
+			for (int i = 0; i < jobsList.size(); i++) {
+				if (jobsList.get(i) instanceof Senior_Job) {
+					score = 0;
+					score += score_lang(user_name,i);
+					score += score_location(user_name,i);
+					score += score_experience(user_name,i);
+					// scores[i] = score;
+					scores.put(i,score);
+				}
+				else{
+					// scores[i] = -1;
+					scores.put(i,-1);
+				}
+			}
+		} 
+	
+		//sort the hash by the value
+		//in order to print the matcher jobs
+
+		LinkedHashMap<Integer,Integer> sorted_job = sortHashMapByValues(scores);
+		
+		//print the top 3 jobs with the best score (score must be at least 30)
+		
+		Set<Integer> keys = sorted_job.keySet();
+        int key_counter = 0;
+		int prints_counter = 0;
+
+        for (Integer key : keys) {
+			
+			score = sorted_job.get(key);
+			//for the first job only:
+			if (key_counter == 0 && score < 10 ){ // there is't a fit job
+				ui.reg_message("Unfortunately there are no jobs that fit you perfectly.. \n Try again later");
+				return;
+			}
+			//check if the job's score is high enough. abort if not (because the jobs are sorted by them score) 
+			if (score < 10 || prints_counter == 3){
+				ui.reg_message("That's all :)\n Hurry up! your new employers are waiting for you");
+				return;
+			}
+			else {
+				ui.reg_message("your dream-job", sorted_job.get(key).toString());
+				prints_counter++;
+			}
+			key_counter++;
+        }
+	
+	}
+	
+	private int score_lang(String user_name, int job_index){
+		int score = 0;
+		//python
+		if (jobsList.get(job_index).getLanguages().isPython() ){
+			if ( users_map.get(user_name).getEmployee().getLanuage().isPython())
+				score += 10;
+			else 
+				score -= 5;
+		}
+		//C
+		if (jobsList.get(job_index).getLanguages().isC() ){
+			if( users_map.get(user_name).getEmployee().getLanuage().isC())
+				score +=10;
+			else
+				score -= 5;
+		}
+		//cpp
+		if (jobsList.get(job_index).getLanguages().isCpp() ){
+			if( users_map.get(user_name).getEmployee().getLanuage().isCpp())
+				score +=10;
+			else
+				score -= 5;
+		}
+		//Java
+		if (jobsList.get(job_index).getLanguages().isJava()){
+			if (users_map.get(user_name).getEmployee().getLanuage().isJava())
+				score +=10;
+			else
+				score -= 5;
+		}
+			
+		//Javascript
+		if (jobsList.get(job_index).getLanguages().isJavascript() ){
+			if (users_map.get(user_name).getEmployee().getLanuage().isJavascript())
+				score +=10;
+			else 
+				score +=5;
+		}
+			
+
+		//Bonus- if the employee knows all languages that required
+		int How_many_lang = jobsList.get(job_index).getLanguages().How_many_lang();
+		if (score/10 == How_many_lang)
+			score += 10;
+
+		return score;
+	}
+
+	private int score_location(String user_name, int job_index){
+		int score = 0;
+		String user_location = users_map.get(user_name).getEmployeeLocation();
+		String job_location = jobsList.get(job_index).getLocation();
+
+		if (user_location == job_location){ //max score if both have the same location
+			score += 10;
+		}
+		else if(user_location.equals("Center") || job_location.equals("Center")){ //half of the score if the employee or the job in the center.
+			score += 5;
+		}
+		else{ // the job is in the North and the Employee is from the South or vice versa
+			score -= 5;
+		}
+		return score;
+	}
+
+	private int score_experience(String user_name, int job_index){
+		int score = 0;
+		int job_request = ((Senior_Job)jobsList.get(job_index)).getSeniority();
+		int employee_experience = ((Senior)users_map.get(user_name).getEmployee()).get_seniority();
+
+		int gap = employee_experience - job_request;
+		if (gap > 0)
+			score += 15;
+		else if (gap == 0)
+			score += 10;
+		else if (gap == -1)
+			score += 5;
+		else if (gap < -3) 
+			score -= 10;
+
+		return score;
+	}
+
+	private int score_gpa(String user_name, int job_index){
+		int score = 0;
+		int job_request = ((Student_Job)jobsList.get(job_index)).getGpa();
+		int employee_gpa = ((Student)users_map.get(user_name).getEmployee()).getGpa();
+		
+		int gap = employee_gpa - job_request;
+		if (gap > 10)
+			score += 15;
+		else if (gap > 0)
+			score += 12;
+		else if (gap == 0)
+			score += 10;
+		else if (gap > -5)
+			score += 5;
+		else if (gap < -10)
+			score -= 15;
+
+		return score;
+	}
+
+	public LinkedHashMap<Integer, Integer> sortHashMapByValues(
+        HashMap<Integer, Integer> passedMap) {
+    List<Integer> mapKeys = new ArrayList<>(passedMap.keySet());
+    List<Integer> mapValues = new ArrayList<>(passedMap.values());
+    Collections.sort(mapValues);
+    Collections.sort(mapKeys);
+
+    LinkedHashMap<Integer, Integer> sortedMap =
+        new LinkedHashMap<>();
+
+    Iterator<Integer> valueIt = mapValues.iterator();
+    while (valueIt.hasNext()) {
+        Integer val = valueIt.next();
+        Iterator<Integer> keyIt = mapKeys.iterator();
+
+        while (keyIt.hasNext()) {
+            Integer key = keyIt.next();
+            Integer comp1 = passedMap.get(key);
+            Integer comp2 = val;
+
+            if (comp1.equals(comp2)) {
+                keyIt.remove();
+                sortedMap.put(key, val);
+                break;
+            }
+        }
+    }
+    return sortedMap;
+}
 
 	public void maneger_menu() {
 		boolean exit = false;
