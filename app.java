@@ -31,25 +31,25 @@ public class app {
 		// create DB
 
 		// student jobs:
-		add_job_to_DB(true, "SW developer", "Sony", true, false, false, false, false, "Center", 85, 100);
-		add_job_to_DB(true, "FW developer", "Apple", true, false, true, false, false, "Center", 90, 92);
-		add_job_to_DB(true, "Security Researcher", "Microsoft", true, false, true, true, false, "Center", 90, 110);
-		add_job_to_DB(true, "SW developer", "Sony", true, false, false, false, false, "North", 85, 100);
-		add_job_to_DB(true, "FW developer", "Apple", true, false, true, false, false, "North", 90, 92);
-		add_job_to_DB(true, "Security Researcher", "Microsoft", true, false, true, true, false, "North", 90, 110);
+		add_job_to_DB(true, "Software", "Sony", true, false, false, false, false, "Center", 85, 100);
+		add_job_to_DB(true, "Firmware", "Apple", true, false, true, false, false, "Center", 90, 92);
+		add_job_to_DB(true, "Security", "Microsoft", true, false, true, true, false, "Center", 90, 110);
+		add_job_to_DB(true, "Software", "Sony", true, false, false, false, false, "North", 85, 100);
+		add_job_to_DB(true, "Firmware", "Apple", true, false, true, false, false, "North", 90, 92);
+		add_job_to_DB(true, "Security", "Microsoft", true, false, true, true, false, "North", 90, 110);
 		add_job_to_DB(true, "DevOps", "Elta", true, false, true, false, true, "South", 80, 80);
-		add_job_to_DB(true, "SW developer", "Apple", false, false, true, true, false, "Center", 85, 100);
-		add_job_to_DB(true, "FW developer", "Intel", false, true, true, false, false, "North", 90, 92);
+		add_job_to_DB(true, "Software", "Apple", false, false, true, true, false, "Center", 85, 100);
+		add_job_to_DB(true, "Firmware", "Intel", false, true, true, false, false, "North", 90, 92);
 		add_job_to_DB(true, "DevOps", "Microsoft", true, false, true, true, false, "Center", 90, 110);
-		add_job_to_DB(true, "Security Researcher", "Elta", true, false, true, false, true, "Center", 80, 80);
+		add_job_to_DB(true, "Security", "Elta", true, false, true, false, true, "Center", 80, 80);
 
 		// Senior jobs:
 		add_job_to_DB(false, "QA", "Intel", true, false, false, false, true, "Center", 5, 15000);
-		add_job_to_DB(false, "FW developer", "Intel", true, false, false, false, true, "Center", 1, 15000);
-		add_job_to_DB(false, "SW developer", "Intel", true, false, false, false, true, "Center", 1, 20000);
+		add_job_to_DB(false, "Firmware", "Intel", true, false, false, false, true, "Center", 1, 15000);
+		add_job_to_DB(false, "Software", "Intel", true, false, false, false, true, "Center", 1, 20000);
 		add_job_to_DB(false, "DevOps", "Intel", true, false, false, false, true, "Center", 8, 19000);
-		add_job_to_DB(false, "Security Researcher", "Intel", true, false, false, false, true, "Center", 3, 20000 );
-		add_job_to_DB(false, "Security Researcher", "Microsoft", true, true, true, false, true, "Center", 1, 18000);
+		add_job_to_DB(false, "Security", "Intel", true, false, false, false, true, "Center", 3, 20000 );
+		add_job_to_DB(false, "Security", "Microsoft", true, true, true, false, true, "Center", 1, 18000);
 
 
 	}
@@ -141,20 +141,20 @@ public class app {
 	}
 
 	private void print_jobs_by_type(String user_name) {
-		String[] type = { "SW developer", "FW developer" , "Security Researcher" , "DevOps" , "QA"};
+		String[] type = { "Software", "Firmware" , "Security" , "DevOps" , "QA"};
 		int choice1 = -1;
 		do {
 			choice1 = ui.some_options("Find job by type",
 					"In which field of job would you like to look?", type);
 			switch (choice1) {
 				case 0:
-					show_type(user_name, "SW developer");
+					show_type(user_name, "Software");
 					break;
 				case 1:
-					show_type(user_name,"FW developer");
+					show_type(user_name,"Firmware");
 					break;
 				case 2:
-					show_type(user_name,"Security Researcher");
+					show_type(user_name,"Security");
 					break;
 				case 3:
 					show_type(user_name,"DevOps");
@@ -162,6 +162,10 @@ public class app {
 				case 4:
 					show_type(user_name,"QA");
 					break;
+				default:
+				//exit = true;	
+					break;
+
 				
 			}
 			choice1 = ui.yes_no("Find job by type",
@@ -584,7 +588,6 @@ public class app {
 			Job_type = "senior";
 		else
 			return;
-
 		String[] locations = { "South", "Center", "North" };
 		int location_c = ui.some_options("Add job", "Please choose the job location:", locations);
 		String location = " ";
@@ -597,16 +600,27 @@ public class app {
 		} else {
 			return;
 		} // TODO: check. free new_job?
-
-		choice = ui.two_options("Add job", "what is the job Erea?", "Hardware", "Software");
-		if (choice == 0) {
-			type = "hardware";
-		} else if (choice == 1) {
-			type = "software";
-		} else {
-			return;
+		String[] types = { "Software", "Firmware" , "Security" , "DevOps" , "QA"};
+		choice = ui.some_options("Add job", "what is the job Erea?", types);
+		switch (choice) {
+			case 0:
+				type= "Software";
+				break;
+			case 1:
+				type="Firmware";
+				break;
+			case 2:
+				type="Security";
+				break;
+			case 3:
+				type="DevOps";
+				break;
+			case 4:
+				type="QA";
+				break;
+			default:
+			 	return;	
 		}
-
 		String[] languages = { "python", "java", "c", "cpp", "javascript" };
 		do {
 			choice = ui.some_options("Add job", "what programming languages is required?", languages);
