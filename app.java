@@ -109,7 +109,8 @@ public class app {
 	public void user_menu(String user_name) {
 
 		while (true) {
-			int choice = ui.two_options("Menu", "what do you want to do:", "Edit my profile", "Find my next Job");
+			String[] menu_options = { "Edit my profile", "Find my next Job","LOG-OUT"};
+			int choice = ui.some_options("Menu", "what do you want to do:",menu_options);
 			if (choice == 0) { // My profile
 				users_map.get(user_name).menu();
 			} else if (choice == 1) { // Find my next Job
@@ -133,8 +134,8 @@ public class app {
 						find_the_dream_job(user_name);
 						break;
 				}
-			} else // cancel
-				break;
+			} else if (choice == 2)// logout
+				return;
 
 		}
 
@@ -432,7 +433,7 @@ public class app {
 	public void maneger_menu() {
 		boolean exit = false;
 		while (!exit) {
-			String[] manager_options = { "Add new job", "Delete a job", "Show all jobs" }; // options for printing
+			String[] manager_options = { "Add new job", "Delete a job", "Show all jobs", "LOG-OUT" }; // options for printing
 			int operation = ui.some_options("Job Matcher", "Maneger Menu", manager_options);
 			switch (operation) {
 				case 0:
