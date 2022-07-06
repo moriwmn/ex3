@@ -45,10 +45,16 @@ public class app {
 		add_job_to_DB(true, "Security Researcher", "Elta", true, false, true, false, true, "Center", 80, 80);
 
 		// Senior jobs:
-		add_job_to_DB(false, "QA", "Intel", true, false, false, false, true, "Center", 5, 0);
+		add_job_to_DB(false, "QA", "Intel", true, false, false, false, true, "Center", 5, 15000);
+		add_job_to_DB(false, "FW developer", "Intel", true, false, false, false, true, "Center", 1, 15000);
+		add_job_to_DB(false, "SW developer", "Intel", true, false, false, false, true, "Center", 1, 20000);
+		add_job_to_DB(false, "DevOps", "Intel", true, false, false, false, true, "Center", 8, 19000);
+		add_job_to_DB(false, "Security Researcher", "Intel", true, false, false, false, true, "Center", 3, 20000 );
+		add_job_to_DB(false, "Security Researcher", "Microsoft", true, true, true, false, true, "Center", 1, 18000);
+
 
 	}
-
+	
 	public void start_menu() {
 		boolean exit = false;
 		while (!exit) {
@@ -110,6 +116,7 @@ public class app {
 			} else if (choice == 1) { // Find my next Job
 				String[] find_job_options = { "Show all jobs",
 						"Show job by lcation",
+						"Show job by type",
 						"find my dream job" }; // options for printing
 				int operation = ui.some_options("Job Matcher", "Find my next Job", find_job_options);
 				switch (operation) {
@@ -119,8 +126,11 @@ public class app {
 					case 1:
 						print_jobs_by_location(user_name);
 						break;
+					case 2:
+						print_jobs_by_type(user_name);
+						break;	
 
-					case 2://
+					case 3://
 						find_the_dream_job(user_name);
 						break;
 				}
@@ -129,6 +139,54 @@ public class app {
 
 		}
 
+	}
+
+	private void print_jobs_by_type(String user_name) {
+		String[] type = { "SW developer", "FW developer" , "Security Researcher" , "DevOps" , "QA"};
+		int choice1 = -1;
+		do {
+			choice1 = ui.some_options("Find job by type",
+					"In which field of job would you like to look?", type);
+			switch (choice1) {
+				case 0:
+					show_type(user_name, "SW developer");
+					break;
+				case 1:
+					show_type(user_name,"FW developer");
+					break;
+				case 2:
+					show_type(user_name,"Security Researcher");
+					break;
+				case 3:
+					show_type(user_name,"DevOps");
+					break;
+				case 4:
+					show_type(user_name,"QA");
+					break;
+				
+			}
+			choice1 = ui.yes_no("Find job by type",
+					"Do you want to see another jobs?");
+		} while (choice1 == 0);
+	
+	}
+
+	private void show_type(String user_name,String job_type) {
+		//helper func to print jobs by type
+		if (users_map.get(user_name).getEmployee() instanceof Student) {
+			for (int i = 0; i < jobsList.size(); i++) {
+				if (jobsList.get(i) instanceof Student_Job && (jobsList.get(i).getType().equals(job_type))) {
+					ui.reg_message(jobsList.get(i).toString());
+				}
+			}
+		}
+		if (users_map.get(user_name).getEmployee() instanceof Senior) {
+			for (int i = 0; i < jobsList.size(); i++) {
+				if (jobsList.get(i) instanceof Senior_Job && (jobsList.get(i).getType().equals(job_type))) {
+					ui.reg_message(jobsList.get(i).toString());
+				}
+			}
+		}
 	}
 
 	private void print_jobs_by_location(String user_name) {
@@ -149,26 +207,6 @@ public class app {
 			}
 		}
 	}
-
-	// private void print_jobs_by_type() {
-	// String location = users_map.get(user_name).getEmployeeLocation();
-	// if (users_map.get(user_name).getEmployee() instanceof Student) {
-	// for (int i = 0; i < jobsList.size(); i++) {
-	// if (jobsList.get(i) instanceof Student_Job &&
-	// (jobsList.get(i).getLocation().equals(location))) {
-	// ui.reg_message(jobsList.get(i).toString());
-	// }
-	// }
-	// }
-	// if (users_map.get(user_name).getEmployee() instanceof Senior) {
-	// for (int i = 0; i < jobsList.size(); i++) {
-	// if (jobsList.get(i) instanceof Senior_Job &&
-	// (jobsList.get(i).getLocation().equals(location))) {
-	// ui.reg_message(jobsList.get(i).toString());
-	// }
-	// }
-	// }
-	// }
 
 	private void find_the_dream_job(String user_name) {
 		// this function gives a csore to each job in the job-list, for specific
