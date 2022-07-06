@@ -13,8 +13,8 @@ import javax.lang.model.util.ElementScanner14;
 
 public class app {
 
-	HashMap<String, E_Profile> users_map = new HashMap<String, E_Profile>(); // user name->profile
-	HashMap<String, String> passwords = new HashMap<String, String>(); // user name->password
+	HashMap<String, E_Profile> users_map = new HashMap< String, E_Profile>(); // user name->profile
+	HashMap<String, String> passwords = new HashMap< String, String>(); // user name->password
 	ArrayList<Job> jobsList = new ArrayList<Job>();
 	// Scanner input = new Scanner(System.in); // Create a Scanner object
 	// for printing:
@@ -79,7 +79,7 @@ public class app {
 	}
 
 	public void sign_in() {
-		String user_name;
+		final String user_name;
 		boolean flag = false;
 		do {
 			user_name = ui.free_input("SIGN-IN", "Please enter a user name:");
@@ -87,7 +87,7 @@ public class app {
 			if (flag)
 				ui.error_message("This name is taken. pls choose another one");
 		} while (flag);
-		String password = ui.free_input("SIGN-IN", "Please enter a password:");
+		final String password = ui.free_input("SIGN-IN", "Please enter a password:");
 		passwords.put(user_name, password);
 		E_Profile e_p = new E_Profile();
 		e_p.create_user_card();
