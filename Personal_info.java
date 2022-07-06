@@ -22,6 +22,13 @@ public class Personal_info {
 		phone = phone2;
 	}
 
+	public Personal_info(String location2) {
+		name = "no name";
+		email = "no_mail@gmail.com";
+		location = location2;
+		phone = "050-0000000";
+	}
+
 	// getters and setters:
 	public String getName() {
 		return name;
