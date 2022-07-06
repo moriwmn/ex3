@@ -93,6 +93,8 @@ public class app {
 		boolean flag = false;
 		do {
 			user_name = ui.free_input("SIGN-IN", "Please enter a user name:");
+			if (user_name == null)
+				return;
 			flag = user_name_in_use(user_name);
 			if (flag)
 				ui.error_message("This name is taken. pls choose another one");

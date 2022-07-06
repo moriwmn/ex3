@@ -72,7 +72,7 @@ public class E_Profile implements Profile {
 	public void student_changes() {// TODO how exit from this window
 		boolean exit = false;
 		while (!exit) {
-			String change = "null";
+			String change = null;
 			String[] option = { "change programming languages",
 					"Change email",
 					"change Phone number",
@@ -87,18 +87,26 @@ public class E_Profile implements Profile {
 					break;
 				case 1:
 					change = ui.free_input("Change email", "Please enter new email:");
+					if (change == null)
+						break;
 					_employee.setEmail(change);
 					break;
 				case 2:
 					change = ui.free_input("Change phone number", "Please enter new phone number: (digits only)");
+					if (change == null)
+						break;
 					this._employee.setPhone(phone_num_isValid(change));
 					break;
 				case 3:
 					change = ui.free_input("Change Study Year ", "Please enter the new Year: (a number)");
+					if (change == null)
+						break;
 					((Student) _employee).setYearsNum(Integer.valueOf(change));
 					break;
 				case 4:
 					change = ui.free_input("Change your GPA ", "Please enter the new GPA:");
+					if (change == null)
+						break;
 					((Student) _employee).setGpa(gpa_isValid(Integer.valueOf(change)));
 					break;
 				case 5:
@@ -124,19 +132,27 @@ public class E_Profile implements Profile {
 					change_lang();
 				case 1:
 					change = ui.free_input("Change email", "Please enter new email:");
+					if (change == null)
+						break;
 					_employee.setEmail(change);
 					break;
 				case 2:
 					change = ui.free_input("Change phone number", "Please enter new phone number: (digits only)");
+					if (change == null)
+						break;
 					this._employee.setPhone(phone_num_isValid(change));
 					_employee.setPhone(change);
 					break;
 				case 3://
 					change = ui.free_input("Change num of experiance ", "Please enter the new num of experiance:");
+					if (change == null)
+						break;
 					((Senior) _employee).set_seniority(Integer.valueOf(change));
 					break;
 				case 4:
 					change = ui.free_input("add more detials ", "Please enter more detials:");
+					if (change == null)
+						break;
 					_employee.setExtraInf(change);
 					break;
 				case 5:
