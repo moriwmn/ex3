@@ -37,7 +37,7 @@ public class app {
 		add_job_to_DB(true, "Software", "Sony", true, false, false, false, false, "North", 85, 100);
 		add_job_to_DB(true, "Firmware", "Apple", true, false, true, false, false, "North", 90, 92);
 		add_job_to_DB(true, "Security", "Microsoft", true, false, true, true, false, "North", 90, 110);
-		add_job_to_DB(true, "DevOps", "Elta", true, false, true, false, true, "South", 80, 80);
+		add_job_to_DB(true, "DevOps", "Elta", true, false, true, false, true, "North", 80, 80);
 		add_job_to_DB(true, "Software", "Apple", false, false, true, true, false, "Center", 85, 100);
 		add_job_to_DB(true, "Firmware", "Intel", false, true, true, false, false, "North", 90, 92);
 		add_job_to_DB(true, "DevOps", "Microsoft", true, false, true, true, false, "Center", 90, 110);
@@ -177,11 +177,13 @@ public class app {
 
 	private void show_type(String user_name,String job_type) {
 		//helper func to print jobs by type
+		boolean flag=true;
 		int retval = 0;
 		String[] button = {"next","exit"};
 		if (users_map.get(user_name).getEmployee() instanceof Student) {
 			for (int i = 0; i < jobsList.size(); i++) {
 				if (jobsList.get(i) instanceof Student_Job && (jobsList.get(i).getType().equals(job_type))) {
+					flag=false;
 					retval = ui.some_options(job_type , jobsList.get(i).toString() , button);
 					if (retval == -1 || retval == 1)
 						return;
@@ -191,22 +193,28 @@ public class app {
 		if (users_map.get(user_name).getEmployee() instanceof Senior) {
 			for (int i = 0; i < jobsList.size(); i++) {
 				if (jobsList.get(i) instanceof Senior_Job && (jobsList.get(i).getType().equals(job_type))) {
+					flag=false;
 					retval = ui.some_options(job_type, jobsList.get(i).toString(), button);
 					if (retval == -1 || retval == 1)
 						return;
 				}
 			}
 		}
+		if(flag){
+			ui.reg_message("There are no jobs in "+ job_type);
+			return;
+		}
 	}
 
 	private void print_jobs_by_location(String user_name) {
-
+		boolean flag=true;
 		int retval = 0;
 		String[] button = {"next","exit"};
 		String location = users_map.get(user_name).getEmployeeLocation();
 		if (users_map.get(user_name).getEmployee() instanceof Student) {
 			for (int i = 0; i < jobsList.size(); i++) {
 				if (jobsList.get(i) instanceof Student_Job && (jobsList.get(i).getLocation().equals(location))) {
+					flag=false;
 					retval = ui.some_options("jobs in "+location, jobsList.get(i).toString(), button);
 					if (retval == -1 || retval == 1)
 						return;
@@ -216,12 +224,18 @@ public class app {
 		if (users_map.get(user_name).getEmployee() instanceof Senior) {
 			for (int i = 0; i < jobsList.size(); i++) {
 				if (jobsList.get(i) instanceof Senior_Job && (jobsList.get(i).getLocation().equals(location))) {
+					flag=false;
 					retval = ui.some_options("jobs in "+location, jobsList.get(i).toString(), button);
 					if (retval == -1 || retval == 1)
 						return;
 				}
 			}
 		}
+		if(flag){
+			ui.reg_message("there are no jobs in yor location..");
+			return;
+		}
+
 	}
 
 	private void find_the_dream_job(String user_name) {
