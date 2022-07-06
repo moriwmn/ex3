@@ -134,7 +134,7 @@ public class app {
 						find_the_dream_job(user_name);
 						break;
 				}
-			} else if (choice == 2)// logout
+			} else if (choice == 2 || choice == -1 )// logout
 				return;
 
 		}
@@ -480,22 +480,27 @@ public class app {
 					delete_job_index = i;
 					break;
 				}
-			} else if (i < jobsList.size() - 1) {
+				if(retval== -1){return;}
+			}
+			 else if (i < jobsList.size() - 1) {
 				String[] button = { "back", "delete", "next" };
 				int retval = ui.some_options("all jobs", "Job num " + (i + 1) + jobsList.get(i).toString(), button);
-				if (retval == 1) {
+				if (retval == 1)
+				{
 					delete_job_index = i;
 					break;
-				} else if (retval == 0)
-					i -= 2;
+				}
+				else if (retval == 0){i -= 2;}
+				else if(retval== -1){return;}
 			} else { // last job in the list
 				String[] button = { "back", "delete", "cancel" };
 				int retval = ui.some_options("all jobs", "Job num " + (i + 1) + jobsList.get(i).toString(), button);
 				if (retval == 1) {
 					delete_job_index = i;
 					break;
-				} else if (retval == 0)
-					i -= 2;
+				} 
+				else if (retval == 0){i -= 2;}
+				else if(retval== -1){return;}
 			}
 		}
 		if (delete_job_index != -1)
