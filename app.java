@@ -524,15 +524,15 @@ public class app {
 							return;
 					}
 					if (i != last_senior_index) {
-						String[] button = { "back", "next" };
+						String[] button = { "back", "next", "exit" };
 						retval = ui.some_options("all jobs", "Job num " + (i + 1) + jobsList.get(i).toString(),
 								button);
 						if (retval == 0)
 							i -= 2;
-						if (retval == 1 || retval == -1)
+						if (retval == 2 || retval == -1)
 							return;
 					} else { // last job in the list
-						String[] button = { "back" };
+						String[] button = { "back", "exit" };
 						retval = ui.some_options("all jobs", "Job num " + (i + 1) + jobsList.get(i).toString(),
 								button);
 						if (retval == 0)
@@ -546,21 +546,27 @@ public class app {
 	}
 
 	private void print_all_jobs() {// for maneger
-
+		int retval = -1;
 		for (int i = 0; i < jobsList.size(); i++) {
 			if (i == 0) {
-				String[] button = { "next" };
-				ui.some_options("all jobs", "Job num " + (i + 1) + jobsList.get(i).toString(), button);
+				String[] button = { "next", "exit"};
+				retval = ui.some_options("all jobs", "Job num " + (i + 1) + jobsList.get(i).toString(), button);
+				if (retval == 1 || retval == -1)
+					return;
 			} else if (i < jobsList.size() - 1) {
-				String[] button = { "back", "next" };
-				int retval = ui.some_options("all jobs", "Job num " + (i + 1) + jobsList.get(i).toString(), button);
+				String[] button = { "back", "next", "exit"};
+				retval = ui.some_options("all jobs", "Job num " + (i + 1) + jobsList.get(i).toString(), button);
 				if (retval == 0)
 					i -= 2;
+				if (retval == 2 || retval == -1)
+					return;
 			} else { // last job in the list
-				String[] button = { "back" };
-				int retval = ui.some_options("all jobs", "Job num " + (i + 1) + jobsList.get(i).toString(), button);
+				String[] button = { "back" ,"exit"};
+				retval = ui.some_options("all jobs", "Job num " + (i + 1) + jobsList.get(i).toString(), button);
 				if (retval == 0)
 					i -= 2;
+				if (retval == 1 || retval == -1)
+					return;
 			}
 			;
 		}
