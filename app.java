@@ -176,17 +176,23 @@ public class app {
 
 	private void show_type(String user_name,String job_type) {
 		//helper func to print jobs by type
+		int retval = 0;
+		String[] button = {"next","exit"};
 		if (users_map.get(user_name).getEmployee() instanceof Student) {
 			for (int i = 0; i < jobsList.size(); i++) {
 				if (jobsList.get(i) instanceof Student_Job && (jobsList.get(i).getType().equals(job_type))) {
-					ui.reg_message(jobsList.get(i).toString());
+					retval = ui.some_options(job_type , jobsList.get(i).toString() , button);
+					if (retval == -1)
+						return;
 				}
 			}
 		}
 		if (users_map.get(user_name).getEmployee() instanceof Senior) {
 			for (int i = 0; i < jobsList.size(); i++) {
 				if (jobsList.get(i) instanceof Senior_Job && (jobsList.get(i).getType().equals(job_type))) {
-					ui.reg_message(jobsList.get(i).toString());
+					retval = ui.some_options(job_type, jobsList.get(i).toString(), button);
+					if (retval == -1)
+						return;
 				}
 			}
 		}
@@ -194,18 +200,24 @@ public class app {
 
 	private void print_jobs_by_location(String user_name) {
 
+		int retval = 0;
+		String[] button = {"next","exit"};
 		String location = users_map.get(user_name).getEmployeeLocation();
 		if (users_map.get(user_name).getEmployee() instanceof Student) {
 			for (int i = 0; i < jobsList.size(); i++) {
 				if (jobsList.get(i) instanceof Student_Job && (jobsList.get(i).getLocation().equals(location))) {
-					ui.reg_message(jobsList.get(i).toString());
+					retval = ui.some_options("jobs in "+location, jobsList.get(i).toString(), button);
+					if (retval == -1)
+						return;
 				}
 			}
 		}
 		if (users_map.get(user_name).getEmployee() instanceof Senior) {
 			for (int i = 0; i < jobsList.size(); i++) {
 				if (jobsList.get(i) instanceof Senior_Job && (jobsList.get(i).getLocation().equals(location))) {
-					ui.reg_message(jobsList.get(i).toString());
+					retval = ui.some_options("jobs in "+location, jobsList.get(i).toString(), button);
+					if (retval == -1)
+						return;
 				}
 			}
 		}
@@ -259,6 +271,8 @@ public class app {
 		Set<Integer> keys = sorted_job.keySet();
 		int key_counter = 0;
 		int prints_counter = 0;
+		int retval = 0;
+		String[] button = {"next","exit"};
 
 		for (Integer key : keys) {
 
@@ -274,7 +288,7 @@ public class app {
 				ui.reg_message("That's all :)\n Hurry up! your new employers are waiting for you");
 				return;
 			} else {
-				ui.reg_message("your dream-job", sorted_job.get(key).toString());
+				retval = ui.some_options("your dream-job", sorted_job.get(key).toString(), button);
 				prints_counter++;
 			}
 			key_counter++;
@@ -472,7 +486,7 @@ public class app {
 		// TODO: add success message;
 	}
 
-	private void print_all_jobs(String user_name) { //
+	private void print_all_jobs(String user_name) { //user
 		int retval = -1;
 		if (users_map.get(user_name).getEmployee() instanceof Student) {
 			// find the last index of student in the list:
