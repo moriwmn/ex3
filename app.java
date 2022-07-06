@@ -182,7 +182,7 @@ public class app {
 			for (int i = 0; i < jobsList.size(); i++) {
 				if (jobsList.get(i) instanceof Student_Job && (jobsList.get(i).getType().equals(job_type))) {
 					retval = ui.some_options(job_type , jobsList.get(i).toString() , button);
-					if (retval == -1)
+					if (retval == -1 || retval = 1)
 						return;
 				}
 			}
@@ -191,7 +191,7 @@ public class app {
 			for (int i = 0; i < jobsList.size(); i++) {
 				if (jobsList.get(i) instanceof Senior_Job && (jobsList.get(i).getType().equals(job_type))) {
 					retval = ui.some_options(job_type, jobsList.get(i).toString(), button);
-					if (retval == -1)
+					if (retval == -1 || retval = 1)
 						return;
 				}
 			}
@@ -207,7 +207,7 @@ public class app {
 			for (int i = 0; i < jobsList.size(); i++) {
 				if (jobsList.get(i) instanceof Student_Job && (jobsList.get(i).getLocation().equals(location))) {
 					retval = ui.some_options("jobs in "+location, jobsList.get(i).toString(), button);
-					if (retval == -1)
+					if (retval == -1 || retval = 1)
 						return;
 				}
 			}
@@ -216,7 +216,7 @@ public class app {
 			for (int i = 0; i < jobsList.size(); i++) {
 				if (jobsList.get(i) instanceof Senior_Job && (jobsList.get(i).getLocation().equals(location))) {
 					retval = ui.some_options("jobs in "+location, jobsList.get(i).toString(), button);
-					if (retval == -1)
+					if (retval == -1 || retval = 1)
 						return;
 				}
 			}
@@ -289,6 +289,8 @@ public class app {
 				return;
 			} else {
 				retval = ui.some_options("your dream-job", sorted_job.get(key).toString(), button);
+				if (retval == 1 || retval == -1)
+					return;
 				prints_counter++;
 			}
 			key_counter++;
