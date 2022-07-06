@@ -115,38 +115,13 @@ public class E_Profile implements Profile {
 		boolean exit = false;
 		while (!exit) {
 			String change = "null";
-			String[] option = { "add programming languages", "Change email", "change Phone number",
+			String[] option = { "change programming languages", "Change email", "change Phone number",
 					"Change num of experience",
 					"add more detials", "show my user card" };
 			int choice = ui.some_options("Menu", "Edit your user card:", option);
 			switch (choice) {
 				case 0:
-					String[] languages = { "python", "java", "c", "cpp", "javascript" };
-					int choice1 = -1;
-					do {
-						choice1 = ui.some_options("add a programming language",
-								"which programming languages do you want add?", languages);
-						switch (choice1) {
-							case 0:
-								_employee.setPython(true);
-								break;
-							case 1:
-								_employee.setJava(true);
-								break;
-							case 2:
-								_employee.setC(true);
-								break;
-							case 3:
-								_employee.setCpp(true);
-								break;
-							case 4:
-								_employee.setJavascript(true);
-								break;
-						}
-						choice = ui.yes_no("add a programming language",
-								"Do you want to add another programming language?");
-					} while (choice == 0);
-					break;
+					change_lang();
 				case 1:
 					change = ui.free_input("Change email", "Please enter new email:");
 					_employee.setEmail(change);
