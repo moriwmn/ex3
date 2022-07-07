@@ -1,117 +1,113 @@
 package ex3;
 
-public abstract class Employee {// implements User {
+public abstract class Employee {
 
-	Personal_info _details;
-	Languages _language; // think about how do it
-	String _extraInf; // extra information
-
-	// public Employee(Personal_info _details) {
-	// this._details = _details;
-	// }// name constructore only
+	Personal_info details;
+	Languages language;
+	String extraInf; // extra information
 
 	public Employee() {
 	}
 
 	public Employee(Personal_info personal_inf, Languages prog_language, String extra_inf) {
-		_details = personal_inf;
-		_language = prog_language;
-		_extraInf = extra_inf;
+		details = personal_inf;
+		language = prog_language;
+		extraInf = extra_inf;
 	}
 
 	public Personal_info getDetails() {
-		return _details;
+		return details;
 	}
 
 	public Languages getLanuage() {
-		return _language;
+		return language;
 	}
 
 	// //getters and setters
 	public String getEmail() {
-		return _details.getEmail();
+		return details.getEmail();
 	}
 
 	public String getLocation() {
-		return _details.getLocation();
+		return details.getLocation();
 	}
 
 	public String getName() {
-		return _details.getName();
+		return details.getName();
 	}
 
 	public String getPhone() {
-		return _details.getPhone();
+		return details.getPhone();
 	}
 
 	public void setName(String name) {
-		this._details.setName(name);
+		this.details.setName(name);
 	}
 
 	public void setEmail(String email) {
-		this._details.setEmail(email);
+		this.details.setEmail(email);
 	}
 
 	public void setLocation(String location) {
-		this._details.setLocation(location);
+		this.details.setLocation(location);
 	}
 
 	public void setPhone(String phone) {
-		this._details.setPhone(phone);
+		this.details.setPhone(phone);
 	}
 
 	public boolean isPython() {
-		return _language.isPython();
+		return language.isPython();
 	}
 
 	public void setPython(boolean python) {
-		this._language.setPython(python);
+		this.language.setPython(python);
 	}
 
 	public boolean isJava() {
-		return _language.isJava();
+		return language.isJava();
 	}
 
 	public void setJava(boolean java) {
-		this._language.setJava(java);
+		this.language.setJava(java);
 	}
 
 	public boolean isC() {
-		return _language.isC();
+		return language.isC();
 	}
 
 	public void setC(boolean c) {
-		this._language.setC(c);
+		this.language.setC(c);
 	}
 
 	public boolean isCpp() {
-		return _language.isCpp();
+		return language.isCpp();
 	}
 
 	public void setCpp(boolean cpp) {
-		this._language.setCpp(cpp);
+		this.language.setCpp(cpp);
 	}
 
 	public boolean isJavascript() {
-		return _language.isJavascript();
+		return language.isJavascript();
 	}
 
 	public void setJavascript(boolean javascript) {
-		this._language.setJavascript(javascript);
+		this.language.setJavascript(javascript);
 	}
 
 	public String getExtraInf() {
-		return _extraInf;
+		return extraInf;
 	}
 
 	public void setExtraInf(String extra) {
-		_extraInf = extra;
+		extraInf = extra;
 	}
 
 	@Override
 	public String toString() {
-		return "\r\n name:" + this._details.getName() + "\r\n email:" + this._details.getEmail() +
-				"\r\n phone number:" + this._details.getPhone() + "\r\n programming languages:"
-				+ this._language.toString();
+		return "\r\n name:" + this.details.getName() + "\r\n email:" + this.details.getEmail() +
+				"\r\n phone number:" + this.details.getPhone() + "\r\n programming languages:"
+				+ this.language.toString();
 	}
 } // end Employee
