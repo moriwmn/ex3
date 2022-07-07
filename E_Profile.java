@@ -95,7 +95,10 @@ public class E_Profile implements Profile {
 					change = UI.free_input("Change phone number", "Please enter new phone number: (digits only)");
 					if (change == null)
 						break;
-					this._employee.setPhone(phone_num_isValid(change));
+					String num_valid = phone_num_isValid(change);
+					if (num_valid == null)
+						break;
+					this._employee.setPhone(num_valid);
 					break;
 				case 3:
 					change = UI.free_input("Change Study Year ", "Please enter the new Year: (a number)");
@@ -107,7 +110,10 @@ public class E_Profile implements Profile {
 					change = UI.free_input("Change your GPA ", "Please enter the new GPA:");
 					if (change == null)
 						break;
-					((Student) _employee).setGpa(gpa_isValid(Integer.valueOf(change)));
+					int gpa_valid = gpa_isValid(Integer.valueOf(change));
+					if (gpa_valid == -1)
+						break;
+					((Student) _employee).setGpa(gpa_valid);
 					break;
 				case 5:
 					show_user_card();
@@ -142,8 +148,12 @@ public class E_Profile implements Profile {
 					change = UI.free_input("Change phone number", "Please enter new phone number: (digits only)");
 					if (change == null)
 						break;
-					this._employee.setPhone(phone_num_isValid(change));
+					String num_valid = phone_num_isValid(change);
+					if (num_valid == null)
+						break;
+					this._employee.setPhone(num_valid);
 					break;
+					
 				case 3://
 					change = UI.free_input("Change num of experiance ", "Please enter the new num of experiance years:");
 					if (change == null)
