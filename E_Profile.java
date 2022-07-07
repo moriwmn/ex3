@@ -171,13 +171,17 @@ public class E_Profile implements Profile {
 		ui.reg_message("my user card", _employee.toString());
 	}
 
-	public void create_user_card() {
-		do {
-			status = ui.two_options("SIGN-IN", "Create your user_card:\n What is your status?", "Student", "Senior");
-		} while (status != 0 && status != 1);
+	public boolean create_user_card() {
+		status = ui.two_options("SIGN-IN", "Create your user_card:\n What is your status?", "Student", "Senior");
+		if (status != 0 && status != 1)
+			return false;
 		String name = ui.free_input("Create user card", "please enter your name");
+		if (name == null)
+			return false;
 		String email = ui.free_input("Create user card", "please enter your email");
-
+		if (email == null)
+			return false;
+			
 		String[] locations = { "South", "Center", "North" };
 		int location_c = ui.some_options("Create user card", "please enter your location:", locations);
 		String location = " ";
@@ -188,7 +192,7 @@ public class E_Profile implements Profile {
 		} else if (location_c == 2) {
 			location = "North";
 		} else {
-			return;
+			return false;
 		}
 
 		String phone = ui.free_input("Create user card", "please enter your phone number");
@@ -215,25 +219,35 @@ public class E_Profile implements Profile {
 				case 4:
 					j_s = true;
 					break;
+				default:
+					break; 
 			}
 			choice = ui.yes_no("Add job", "Do you want to add another programming language?");
 		} while (choice == 0);
 		Languages prog_language = new Languages(py, java, c, cpp, j_s);
 
 		if (status == 0) { // add sudent details to user card
-			int gpa = Integer.valueOf(ui.free_input("Create user card", "please enter your GPA:"));
-			gpa = gpa_isValid(gpa);
-			String univesity = ui.free_input("Create user card",
+			String t_gpa = ui.free_input("Create user card", "please enter your GPA:");
+			if (t_gpa == null)
+				return false;
+			int gpa = gpa_isValid(Integer.valueOf(t_gpa));
+			String university = ui.free_input("Create user card",
 					"please enter the name of the university where you are studying:");
-			int years = Integer.valueOf(ui.free_input("Create user card", "Enter num of years left till graduation"));
+			if (university == null)
+				return false;
+			String t_years =ui.free_input("Create user card", "Enter num of years left till graduation");
+			if (t_years == null)
+				return false;
+			int years =  Integer.valueOf(t_years);
 			String extra_inf = ui.free_input("Create user card", "enter more information:");
-			_employee = new Student(personal_inf, prog_language, extra_inf, univesity, years, gpa);
+			_employee = new Student(personal_inf, prog_language, extra_inf, university, years, gpa);
 		} else if (status == 1) { // add senior details to user card
 			String last_job = ui.free_input("Create user card", "Entar your last job:");
 			int experience = Integer.valueOf(ui.free_input("Create user card", "enter num years of experience"));
 			String extra_inf = ui.free_input("Create user card", "enter more information:");
 			_employee = new Senior(personal_inf, prog_language, extra_inf, last_job, experience);
 		}
+		return true;
 	}
 
 	// validtion:

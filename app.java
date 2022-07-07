@@ -100,12 +100,18 @@ public class app {
 				ui.error_message("This name is taken. pls choose another one");
 		} while (flag);
 		final String password = ui.free_input("SIGN-IN", "Please enter a password:");
-		passwords.put(user_name, password);
+		if (password == null)
+			return;
+		
 		E_Profile e_p = new E_Profile();
-		e_p.create_user_card();
+		boolean create_successful =  e_p.create_user_card();
+		if (!create_successful){
+				ui.reg_message("create user card is failed or canceled. pls try again");
+				return;
+		}	
 		users_map.put(user_name, e_p);
+		passwords.put(user_name, password);
 		ui.reg_message("SIGN-IN", "Thank you for signing in! pls log-in");
-		// return to main menu- to login
 	}
 
 	public void user_menu(String user_name) {
@@ -615,7 +621,6 @@ public class app {
 	}
 
 	public void add_job() {
-		Job new_job;
 		int choice = -1;
 		String Job_type = " ", job_field = " ";
 		boolean py = false, java = false, c = false, cpp = false, j_s = false;
@@ -678,11 +683,14 @@ public class app {
 				case 4:
 					j_s = true;
 					break;
+				default:
+					return;
 			}
 			choice = ui.yes_no("Add job", "Do you want to add another programming language?");
 		} while (choice == 0);
 		Languages prog_language = new Languages(py, java, c, cpp, j_s);
 
+		Job new_job;
 		String company = ui.free_input("Add job", "what is the company name?");
 		if (Job_type.equals("student")) { // stuednt
 			int gpa_req = Integer.valueOf(ui.free_input("Add job", "Please enter a required GPA"));
