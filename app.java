@@ -116,7 +116,7 @@ public class app {
 	public void user_menu(String user_name) {
 
 		while (true) {
-			String[] menu_options = { "Edit my profile", "Find my next Job","LOG-OUT"};
+			String[] menu_options = { "My profile", "Find my next Job","LOG-OUT"};
 			int choice = ui.some_options("Menu", "what do you want to do:",menu_options);
 			if (choice == 0) { // My profile
 				users_map.get(user_name).menu();

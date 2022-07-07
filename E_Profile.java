@@ -16,10 +16,12 @@ public class E_Profile implements Profile {
 		Personal_info details = new Personal_info(location);
 		details.setName(name);
 		Languages languages = new Languages();
-		if (type) { // 1 = > student / 0=> senior
+		if (type) { // true = > student / false=> senior
 			this._employee = new Student(details, languages, "no_extra", "BIU", 3, 90);
+			this.status = 0; 
 		} else {
 			this._employee = new Senior(details, languages, "no_extra", "CEO", 7);
+			this.status = 1;
 		}
 	}
 
@@ -123,9 +125,11 @@ public class E_Profile implements Profile {
 		boolean exit = false;
 		while (!exit) {
 			String change = "null";
-			String[] option = { "change programming languages", "Change email", "change Phone number",
-					"Change num of experience",
-					"add more detials", "show my user card" };
+			String[] option = { "change programming languages", 
+								"Change email", 
+								"change Phone number",
+								"Change num of experience",
+								"add more detials", "show my user card"};
 			int choice = ui.some_options("Menu", "Edit your user card:", option);
 			switch (choice) {
 				case 0:
@@ -171,7 +175,7 @@ public class E_Profile implements Profile {
 	}
 
 	public boolean create_user_card() {
-		status = ui.two_options("SIGN-IN", "Create your user_card:\n What is your status?", "Student", "Senior");
+		this.status = ui.two_options("SIGN-IN", "Create your user_card:\n What is your status?", "Student", "Senior");
 		if (status != 0 && status != 1)
 			return false;
 		String name = ui.free_input("Create user card", "please enter your name");

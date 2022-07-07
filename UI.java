@@ -4,19 +4,17 @@ import java.util.HashMap;
 
 public class UI {
     ImageIcon logo = new ImageIcon("logo.png");
-	String[] responses_3 = {null,null,null};
+	
 
     public int panel_welcome(){
-    responses_3[0] = "LOG-IN";
-    responses_3[1] = "SIGN-IN";
-    responses_3[2] = "Exit";
+    String[] welcome_buttons = {"LOG-IN", "SIGN-IN",  "Exit"};
     return JOptionPane.showOptionDialog(null,
     "Welcome to Job Matcher!", 
     "welcome", 
     JOptionPane.YES_NO_CANCEL_OPTION, 
     JOptionPane.INFORMATION_MESSAGE, 
     logo, 
-    responses_3, 
+    welcome_buttons, 
     null);
     }
 
