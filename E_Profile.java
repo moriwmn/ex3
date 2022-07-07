@@ -96,7 +96,7 @@ public class E_Profile implements Profile {
 					if (change == null)
 						break;
 					String num_valid = phone_num_isValid(change);
-					if (num_valid == null)
+					if (num_valid == "error")
 						break;
 					this._employee.setPhone(num_valid);
 					break;
@@ -133,11 +133,13 @@ public class E_Profile implements Profile {
 								"Change email", 
 								"change Phone number",
 								"Change num of experience",
-								"add more detials", "show my user card"};
+								"add more detials", 
+								"show my user card"};
 			int choice = UI.some_options("Menu", "Edit your user card:", option);
 			switch (choice) {
 				case 0:
 					change_lang();
+					break;
 				case 1:
 					change = UI.free_input("Change email", "Please enter new email:");
 					if (change == null)
@@ -149,7 +151,7 @@ public class E_Profile implements Profile {
 					if (change == null)
 						break;
 					String num_valid = phone_num_isValid(change);
-					if (num_valid == null)
+					if (num_valid == "error")
 						break;
 					this._employee.setPhone(num_valid);
 					break;
