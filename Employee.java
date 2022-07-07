@@ -106,8 +106,8 @@ public abstract class Employee {
 
 	@Override
 	public String toString() {
-		return "\r\n name:" + this.details.getName() + "\r\n email:" + this.details.getEmail() +
-				"\r\n phone number:" + this.details.getPhone() + "\r\n programming languages:"
+		return "\r\n name: " + this.details.getName() + "\r\n email: " + this.details.getEmail() +
+				"\r\n phone number: " + this.details.getPhone() + "\r\n programming languages: "
 				+ this.language.toString();
 	}
 } // end Employee

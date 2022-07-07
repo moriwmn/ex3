@@ -42,7 +42,7 @@ public void setLanguages(Languages languages) {
 
 @Override
 public String toString() {
-	return "\r\nJob field:"+field+ "\r\nCompany name:" + Company + "\r\nLocation:"+location; //TODO: how to print languages
+	return "\r\nJob field: "+field+ "\r\nCompany name: " + Company + "\r\nLocation: "+location; 
 }
 }
 

@@ -27,8 +27,8 @@ public class Student_Job extends Job {
 
 	@Override
 	public String toString() {
-		return super.toString() + "\r\nwith salery per hour: " + salery_per_hour + "\r\nGPA requaired:" + gpa_req
-				+ "\r\nNum of hours per weeks:" + num_of_hours;
+		return super.toString() + "\r\nwith salery per hour: " + salery_per_hour + "\r\nGPA requaired: " + gpa_req
+				+ "\r\nNum of hours per weeks: " + num_of_hours;
 	}
 
 }

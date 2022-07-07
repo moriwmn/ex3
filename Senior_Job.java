@@ -22,6 +22,6 @@ public class Senior_Job extends Job {
 	}
 
 	public String toString() {
-		return super.toString() + "\r\nSeniority: " + seniority + "\r\nExperienced with:" + experience;
+		return super.toString() + "\r\nSeniority: " + seniority +" years"+ "\r\nExperienced with:" + experience;
 	}
 }

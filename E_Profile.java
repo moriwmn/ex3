@@ -69,7 +69,7 @@ public class E_Profile implements Profile {
 			senior_changes();
 	}
 
-	public void student_changes() {// TODO how exit from this window
+	public void student_changes() {
 		boolean exit = false;
 		while (!exit) {
 			String change = null;
@@ -119,7 +119,7 @@ public class E_Profile implements Profile {
 		}
 	}
 
-	public void senior_changes() { // TODO how exit from this window
+	public void senior_changes() { 
 		boolean exit = false;
 		while (!exit) {
 			String change = "null";
@@ -141,10 +141,9 @@ public class E_Profile implements Profile {
 					if (change == null)
 						break;
 					this._employee.setPhone(phone_num_isValid(change));
-					_employee.setPhone(change);
 					break;
 				case 3://
-					change = ui.free_input("Change num of experiance ", "Please enter the new num of experiance:");
+					change = ui.free_input("Change num of experiance ", "Please enter the new num of experiance years:");
 					if (change == null)
 						break;
 					((Senior) _employee).set_seniority(Integer.valueOf(change));
@@ -181,7 +180,7 @@ public class E_Profile implements Profile {
 		String email = ui.free_input("Create user card", "please enter your email");
 		if (email == null)
 			return false;
-			
+
 		String[] locations = { "South", "Center", "North" };
 		int location_c = ui.some_options("Create user card", "please enter your location:", locations);
 		String location = " ";
@@ -195,8 +194,12 @@ public class E_Profile implements Profile {
 			return false;
 		}
 
-		String phone = ui.free_input("Create user card", "please enter your phone number");
+		String phone = ui.free_input("Create user card", "please enter your phone number (digits only");
+		if (phone == null)
+			return false;
 		phone = phone_num_isValid(phone);
+		if (phone.equals("error"))
+			return false;
 		Personal_info personal_inf = new Personal_info(name, email, location, phone);
 		boolean py = false, java = false, c = false, cpp = false, j_s = false;
 		String[] languages = { "python", "java", "c", "cpp", "javascript" };
@@ -225,17 +228,21 @@ public class E_Profile implements Profile {
 			choice = ui.yes_no("Add job", "Do you want to add another programming language?");
 		} while (choice == 0);
 		Languages prog_language = new Languages(py, java, c, cpp, j_s);
-
+		
+		//separated params
+		boolean valid_input = true;
 		if (status == 0) { // add sudent details to user card
 			String t_gpa = ui.free_input("Create user card", "please enter your GPA:");
 			if (t_gpa == null)
 				return false;
 			int gpa = gpa_isValid(Integer.valueOf(t_gpa));
+			if (gpa == -1) // isValid return error
+				return false;
 			String university = ui.free_input("Create user card",
 					"please enter the name of the university where you are studying:");
 			if (university == null)
 				return false;
-			String t_years =ui.free_input("Create user card", "Enter num of years left till graduation");
+			String t_years =ui.free_input("Create user card", "Enter your university year (a number)");
 			if (t_years == null)
 				return false;
 			int years =  Integer.valueOf(t_years);
@@ -243,9 +250,25 @@ public class E_Profile implements Profile {
 			_employee = new Student(personal_inf, prog_language, extra_inf, university, years, gpa);
 		} else if (status == 1) { // add senior details to user card
 			String last_job = ui.free_input("Create user card", "Entar your last job:");
-			int experience = Integer.valueOf(ui.free_input("Create user card", "enter num years of experience"));
+			if (last_job == null)
+				return false;
+
+			//seniority
+			int seniority;
+			do{
+			valid_input = true;
+			String str_seniority= ui.free_input("Add job", "Please enter the number seniority years you have");
+			if (str_seniority == null)
+				return false;
+			seniority= Integer.valueOf(str_seniority);
+			if (seniority < 0){
+				valid_input = false;
+				ui.reg_message("the number you entered is out of scope. pls try again");
+			}
+			}while (!valid_input);
+
 			String extra_inf = ui.free_input("Create user card", "enter more information:");
-			_employee = new Senior(personal_inf, prog_language, extra_inf, last_job, experience);
+			_employee = new Senior(personal_inf, prog_language, extra_inf, last_job, seniority);
 		}
 		return true;
 	}
@@ -253,19 +276,26 @@ public class E_Profile implements Profile {
 	// validtion:
 
 	public String phone_num_isValid(String phone) {
+		
 		while (phone.length() != 9 && phone.length() != 10) {
 			ui.reg_message("this phone number invaild pls enter valid value");
 			phone = ui.free_input("Create user card", "please enter your phone number");
+			if (phone == null)
+				return "error";
 		}
 		return phone;
 	}
 
 	public int gpa_isValid(int gpa) {
-		while (gpa < 0 || gpa > 100) {
-			ui.reg_message("this GPA is invaild. pls enter num in range 0-100");
-			gpa = Integer.valueOf(ui.free_input("Create user card", "please enter your GPA"));
+		String str_gpa = "";
+		while (gpa < 60 || gpa > 100) {
+			ui.reg_message("this GPA is invaild. pls enter num in range 60-100");
+			str_gpa = ui.free_input("Create user card", "please enter your GPA");
+			if (str_gpa == null)
+				return -1;
+			gpa = Integer.valueOf(str_gpa);
 		}
-		return gpa;
+		return Integer.valueOf(gpa);
 	}
 
 	public void change_lang() {

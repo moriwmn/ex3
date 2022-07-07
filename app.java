@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Set;
 
 
 public class app {
@@ -35,21 +34,21 @@ public class app {
 		add_job_to_DB(true, "Firmware", "Apple", true, false, true, false, false, "Center", 90, 92);
 		add_job_to_DB(true, "Security", "Microsoft", true, false, true, true, false, "Center", 90, 110);
 		add_job_to_DB(true, "Software", "Sony", true, false, false, false, false, "North", 85, 100);
-		add_job_to_DB(true, "Firmware", "Apple", true, false, true, false, false, "North", 90, 92);
+		add_job_to_DB(true, "Firmware", "Apple", true, false, true, false, false, "North", 90, 95);
 		add_job_to_DB(true, "Security", "Microsoft", true, false, true, true, false, "North", 90, 110);
 		add_job_to_DB(true, "DevOps", "Elta", true, false, true, false, true, "North", 80, 80);
-		add_job_to_DB(true, "Software", "Apple", false, false, true, true, false, "Center", 85, 100);
+		add_job_to_DB(true, "Software", "Apple", false, false, true, true, false, "Center", 85, 90);
 		add_job_to_DB(true, "Firmware", "Intel", false, true, true, false, false, "North", 90, 92);
-		add_job_to_DB(true, "DevOps", "Microsoft", true, false, true, true, false, "Center", 90, 110);
-		add_job_to_DB(true, "Security", "Elta", true, false, true, false, true, "Center", 80, 80);
+		add_job_to_DB(true, "DevOps", "Microsoft", true, false, true, true, false, "Center", 85, 88);
+		add_job_to_DB(true, "Security", "Elta", true, false, true, false, true, "Center", 85, 80);
 
 		// Senior jobs:
-		add_job_to_DB(false, "QA", "Intel", true, false, false, false, true, "Center", 5, 15000);
-		add_job_to_DB(false, "Firmware", "Intel", true, false, false, false, true, "Center", 1, 15000);
-		add_job_to_DB(false, "Software", "Intel", true, false, false, false, true, "Center", 1, 20000);
-		add_job_to_DB(false, "DevOps", "Intel", true, false, false, false, true, "Center", 8, 19000);
-		add_job_to_DB(false, "Security", "Intel", true, false, false, false, true, "Center", 3, 20000 );
-		add_job_to_DB(false, "Security", "Microsoft", true, true, true, false, true, "Center", 1, 18000);
+		add_job_to_DB(false, "QA", "Intel", true, false, false, false, true, "Center", 5, 0); //salary isn't a param for Senior job
+		add_job_to_DB(false, "Firmware", "Intel", true, false, false, false, true, "Center", 1, 0);
+		add_job_to_DB(false, "Software", "Intel", true, false, false, false, true, "Center", 5, 0);
+		add_job_to_DB(false, "DevOps", "Intel", true, false, false, false, true, "Center", 8, 0);
+		add_job_to_DB(false, "Security", "Intel", true, false, false, false, true, "Center", 3, 0 );
+		add_job_to_DB(false, "Security", "Microsoft", true, true, true, false, true, "Center", 5, 0);
 
 
 	}
@@ -137,16 +136,13 @@ public class app {
 					case 2:
 						print_jobs_by_field(user_name);
 						break;	
-
-					case 3://
+					case 3:
 						find_the_dream_job(user_name);
 						break;
 				}
 			} else if (choice == 2 || choice == -1 )// logout
 				return;
-
 		}
-
 	}
 
 	private void print_jobs_by_field(String user_name) {
@@ -171,14 +167,10 @@ public class app {
 				case 4:
 					show_job_field(user_name,"QA");
 					break;
-				default:
-				//exit = true;	
+				default:	
 					break;
-
-				
 			}
-			choice1 = ui.yes_no("Find job by field",
-					"Do you want to see another jobs?");
+			choice1 = ui.yes_no("Find job by field", "Do you want to see another jobs?");
 		} while (choice1 == 0);
 	
 	}
@@ -275,10 +267,8 @@ public class app {
 					score += score_lang(user_name, i);
 					score += score_location(user_name, i);
 					score += score_experience(user_name, i);
-					// scores[i] = score;
 					scores.put(i, score);
 				} else {
-					// scores[i] = -1;
 					scores.put(i, -1);
 				}
 			}
@@ -287,11 +277,12 @@ public class app {
 		// sort the hash by the value
 		// in order to print the matcher jobs
 
-		LinkedHashMap<Integer, Integer> sorted_job = sortHashMapByValues(scores);
+		LinkedHashMap<Integer, Integer> sorted_jobs = sortHashMapByValues(scores);
 
 		// print the top 3 jobs with the best score (score must be at least 30)
-
-		Set<Integer> keys = sorted_job.keySet();
+	
+		List<Integer> keys =new ArrayList<Integer>(sorted_jobs.keySet());
+		Collections.reverse(keys); //reverse the keys order (ordered by the score's value)- for starting from the high score to the low one
 		int key_counter = 0;
 		int prints_counter = 0;
 		int retval = 0;
@@ -299,19 +290,25 @@ public class app {
 
 		for (Integer key : keys) {
 
-			score = sorted_job.get(key);
+			score = sorted_jobs.get(key);
 			// for the first job only:
 			if (key_counter == 0 && score < 10) { // there is't a fit job
 				ui.reg_message("Unfortunately there are no jobs that fit you perfectly.. \n Try again later");
 				return;
 			}
-			// check if the job's score is high enough. abort if not (because the jobs are
-			// sorted by them score)
+			// check if the job's score is high enough. abort if not 
+			// (the jobs aresorted by them score)
 			if (score < 10 || prints_counter == 3) {
 				ui.reg_message("That's all :)\n Hurry up! your new employers are waiting for you");
 				return;
 			} else {
-				retval = ui.some_options("your dream-job", sorted_job.get(key).toString(), button);
+				if (prints_counter == 0){
+					String[] first_m_button = {"show me"};
+					retval = ui.some_options("your dream-job", "we found jobs special for you! click here to see! :)", first_m_button);
+					if (retval == -1)
+						return;
+				}
+				retval = ui.some_options("your dream-job", jobsList.get(key).toString(), button);
 				if (retval == 1 || retval == -1)
 					return;
 				prints_counter++;
@@ -322,6 +319,7 @@ public class app {
 	}
 
 	private int score_lang(String user_name, int job_index) {
+		//the function gets user name and job index and check if the user have the job's required languages
 		int score = 0;
 		// python
 		if (jobsList.get(job_index).getLanguages().isPython()) {
@@ -369,6 +367,7 @@ public class app {
 	}
 
 	private int score_location(String user_name, int job_index) {
+		//the function gets user name and job index and check if the user and the job in the same location 
 		int score = 0;
 		String user_location = users_map.get(user_name).getEmployeeLocation();
 		String job_location = jobsList.get(job_index).getLocation();
@@ -404,6 +403,7 @@ public class app {
 	}
 
 	private int score_gpa(String user_name, int job_index) {
+		//the function gets user name and job index and check if the user have the job's required gpa
 		int score = 0;
 		int job_request = ((Student_Job) jobsList.get(job_index)).getGpa();
 		int employee_gpa = ((Student) users_map.get(user_name).getEmployee()).getGpa();
@@ -511,9 +511,11 @@ public class app {
 				else if(retval== -1){return;}
 			}
 		}
-		if (delete_job_index != -1)
+		if (delete_job_index != -1){
 			jobsList.remove(delete_job_index);
-		// TODO: add success message;
+			ui.reg_message("the job was successfully removed");
+		}
+		
 	}
 
 	private void print_all_jobs(String user_name) { //user
@@ -624,6 +626,10 @@ public class app {
 		int choice = -1;
 		String Job_type = " ", job_field = " ";
 		boolean py = false, java = false, c = false, cpp = false, j_s = false;
+
+		//get the params tha relevant to both student and Senior:
+
+		//job status type
 		choice = ui.two_options("Add job", "Add new job:", "Student job", "Senior job");
 		if (choice == 0)
 			Job_type = "student";
@@ -631,6 +637,12 @@ public class app {
 			Job_type = "senior";
 		else
 			return;
+
+		//company
+		String company = ui.free_input("Add job", "what is the company name?");
+		if (company == null)
+			return;
+		//location
 		String[] locations = { "South", "Center", "North" };
 		int location_c = ui.some_options("Add job", "Please choose the job location:", locations);
 		String location = " ";
@@ -642,7 +654,9 @@ public class app {
 			location = "North";
 		} else {
 			return;
-		} // TODO: check. free new_job?
+		}
+
+		//field
 		String[] fields = { "Software", "Firmware" , "Security" , "DevOps" , "QA"};
 		choice = ui.some_options("Add job", "what is the job Erea?", fields);
 		switch (choice) {
@@ -664,6 +678,8 @@ public class app {
 			default:
 			 	return;	
 		}
+		
+		//required languages
 		String[] languages = { "python", "java", "c", "cpp", "javascript" };
 		do {
 			choice = ui.some_options("Add job", "what programming languages is required?", languages);
@@ -690,22 +706,80 @@ public class app {
 		} while (choice == 0);
 		Languages prog_language = new Languages(py, java, c, cpp, j_s);
 
-		Job new_job;
-		String company = ui.free_input("Add job", "what is the company name?");
+		//get the separated params:
+
+		boolean valid_input;
 		if (Job_type.equals("student")) { // stuednt
-			int gpa_req = Integer.valueOf(ui.free_input("Add job", "Please enter a required GPA"));
-			int salary = Integer.valueOf(ui.free_input("Add job", "Please enter a salary per hour"));
-			int num_hours = Integer.valueOf(ui.free_input("Add job", "Please enter a num of hours in week"));
-			// TODO: input validation. maybe: oone window for all 3?
-			new_job = new Student_Job(job_field, company, location, prog_language, salary, gpa_req, num_hours);
-		} else {// senior
-			String experience = ui.free_input("Add job", "Please enter a required experience");
-			int seniority = Integer.valueOf(ui.free_input("Add job", "Please enter a required num of seniority"));
-			// TODO: input validation.
-			new_job = new Senior_Job(job_field, company, location, prog_language, seniority, experience);
+			int gpa_req, salary, num_hours;
+
+			//GPA
+			do {
+			valid_input = true;
+			String str_gpa = ui.free_input("Add job", "Please enter a required GPA");
+			if (str_gpa == null)
+				return;
+			gpa_req = Integer.valueOf(str_gpa);
+			if (gpa_req < 60 || gpa_req > 100){
+				valid_input = false;
+				ui.reg_message("the number you entered is out of scope. pls try again");
+			}
+			}while (!valid_input);
+			
+			//salary
+			do {
+			valid_input = true;
+			String str_salary = ui.free_input("Add job", "Please enter a salary- NIS per hour");
+			if (str_salary == null)
+				return;
+			salary = Integer.valueOf(str_salary);
+			if (salary < 0){
+				valid_input = false;
+				ui.reg_message("the number you entered is out of scope. pls try again");
+			}
+			}while (!valid_input);
+
+			//hours per week
+			do {
+			valid_input = true;
+			String str_num_hours = ui.free_input("Add job", "Please enter a num of hours in week");
+			if (str_num_hours == null)
+				return;
+			num_hours = Integer.valueOf(str_num_hours);
+			if (num_hours < 0 || num_hours > 50){
+				valid_input = false;
+				ui.reg_message("the number you entered is out of scope. pls try again");
+			}
+			}while (!valid_input);
+
+			//create the new Student job and add it to the jobs list
+			Job new_job = new Student_Job(job_field, company, location, prog_language, salary, gpa_req, num_hours);
+			this.jobsList.add(new_job);
+			ui.reg_message("The job was successfully added");
+		} 
+		else if (Job_type.equals("senior")) {// senior
+			//required experience
+			String experience = ui.free_input("Add job", "Please enter a required experience (text)");
+			if (experience == null)
+				return;
+
+			//seniority
+			int seniority;
+			do{
+			valid_input = true;
+			String str_seniority= ui.free_input("Add job", "Please enter the number of required seniority years");
+			if (str_seniority == null)
+				return;
+			seniority= Integer.valueOf(str_seniority);
+			if (seniority < 0){
+				valid_input = false;
+				ui.reg_message("the number you entered is out of scope. pls try again");
+			}
+			}while (!valid_input);
+			//create the new Senior job and add it to the jobs list
+			Job new_job = new Senior_Job(job_field, company, location, prog_language, seniority, experience);
+			this.jobsList.add(new_job);
+			ui.reg_message("The job was successfully added");
 		}
-		this.jobsList.add(new_job);
-		ui.reg_message("The job was successfully added");
 	}
 
 	public boolean isExist(String user_name, String password) {

@@ -16,8 +16,7 @@ public class Languages {
 		this.javascript = false;
 	}
 
-	public Languages(boolean python, boolean java, boolean c, boolean cpp, boolean javascript) {// TODO:think about
-																								// better constructor
+	public Languages(boolean python, boolean java, boolean c, boolean cpp, boolean javascript) {
 		this.python = python;
 		this.java = java;
 		this.c = c;

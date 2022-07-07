@@ -6,11 +6,10 @@ public class Senior extends Employee {
     private int seniority;
 
     // constractor:
-    public Senior(Personal_info details, Languages languages, String extraInf, String last_job,
-            int experience) {
+    public Senior(Personal_info details, Languages languages, String extraInf, String n_last_job, int n_seniority) {
         super(details, languages, extraInf);
-        this.last_job = last_job;
-        this.seniority = experience;
+        this.last_job = n_last_job;
+        this.seniority = n_seniority;
     }
 
     public String get_last_job() {
