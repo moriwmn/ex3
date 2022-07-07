@@ -2,23 +2,23 @@ package ex3;
 
 public abstract class Job {
 	
-private String type; //job for student/senior
+private String field; //job field
 private String Company;	
 private String location;
 Languages prog_language;
 
 
-public Job(String type, String company, String location, Languages prog_language) {
-	this.type = type;
+public Job(String field, String company, String location, Languages prog_language) {
+	this.field = field;
 	this.Company = company;
 	this.location = location;
 	this.prog_language = prog_language;
 }
-public String getType() {
-	return type;
+public String getJobField() {
+	return field;
 }
-public void setType(String type) {
-	this.type = type;
+public void setField(String field) {
+	this.field = field;
 }
 public String getLocation() {
 	return location;
@@ -42,7 +42,7 @@ public void setLanguages(Languages languages) {
 
 @Override
 public String toString() {
-	return "\r\nJob type:"+type+ "\r\nCompany name:" + Company + "\r\nLocation:"+location; //TODO: how to print languages
+	return "\r\nJob field:"+field+ "\r\nCompany name:" + Company + "\r\nLocation:"+location; //TODO: how to print languages
 }
 }
 

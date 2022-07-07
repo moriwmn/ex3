@@ -118,7 +118,7 @@ public class app {
 			} else if (choice == 1) { // Find my next Job
 				String[] find_job_options = { "Show all jobs",
 						"Show job by lcation",
-						"Show job by type",
+						"Show job by field",
 						"find my dream job" }; // options for printing
 				int operation = ui.some_options("Job Matcher", "Find my next Job", find_job_options);
 				switch (operation) {
@@ -129,7 +129,7 @@ public class app {
 						print_jobs_by_location(user_name);
 						break;
 					case 2:
-						print_jobs_by_type(user_name);
+						print_jobs_by_field(user_name);
 						break;	
 
 					case 3://
@@ -143,27 +143,27 @@ public class app {
 
 	}
 
-	private void print_jobs_by_type(String user_name) {
-		String[] type = { "Software", "Firmware" , "Security" , "DevOps" , "QA"};
+	private void print_jobs_by_field(String user_name) {
+		String[] field = { "Software", "Firmware" , "Security" , "DevOps" , "QA"};
 		int choice1 = -1;
 		do {
-			choice1 = ui.some_options("Find job by type",
-					"In which field of job would you like to look?", type);
+			choice1 = ui.some_options("Find job by field",
+					"In which field of job would you like to look?", field);
 			switch (choice1) {
 				case 0:
-					show_type(user_name, "Software");
+					show_job_field(user_name, "Software");
 					break;
 				case 1:
-					show_type(user_name,"Firmware");
+					show_job_field(user_name,"Firmware");
 					break;
 				case 2:
-					show_type(user_name,"Security");
+					show_job_field(user_name,"Security");
 					break;
 				case 3:
-					show_type(user_name,"DevOps");
+					show_job_field(user_name,"DevOps");
 					break;
 				case 4:
-					show_type(user_name,"QA");
+					show_job_field(user_name,"QA");
 					break;
 				default:
 				//exit = true;	
@@ -171,22 +171,22 @@ public class app {
 
 				
 			}
-			choice1 = ui.yes_no("Find job by type",
+			choice1 = ui.yes_no("Find job by field",
 					"Do you want to see another jobs?");
 		} while (choice1 == 0);
 	
 	}
 
-	private void show_type(String user_name,String job_type) {
-		//helper func to print jobs by type
+	private void show_job_field(String user_name,String job_field) {
+		//helper func to print jobs by field
 		boolean flag=true;
 		int retval = 0;
 		String[] button = {"next","exit"};
 		if (users_map.get(user_name).getEmployee() instanceof Student) {
 			for (int i = 0; i < jobsList.size(); i++) {
-				if (jobsList.get(i) instanceof Student_Job && (jobsList.get(i).getType().equals(job_type))) {
+				if (jobsList.get(i) instanceof Student_Job && (jobsList.get(i).getJobField().equals(job_field))) {
 					flag=false;
-					retval = ui.some_options(job_type , jobsList.get(i).toString() , button);
+					retval = ui.some_options(job_field , jobsList.get(i).toString() , button);
 					if (retval == -1 || retval == 1)
 						return;
 				}
@@ -194,16 +194,16 @@ public class app {
 		}
 		if (users_map.get(user_name).getEmployee() instanceof Senior) {
 			for (int i = 0; i < jobsList.size(); i++) {
-				if (jobsList.get(i) instanceof Senior_Job && (jobsList.get(i).getType().equals(job_type))) {
+				if (jobsList.get(i) instanceof Senior_Job && (jobsList.get(i).getJobField().equals(job_field))) {
 					flag=false;
-					retval = ui.some_options(job_type, jobsList.get(i).toString(), button);
+					retval = ui.some_options(job_field, jobsList.get(i).toString(), button);
 					if (retval == -1 || retval == 1)
 						return;
 				}
 			}
 		}
 		if(flag){
-			ui.reg_message("There are no jobs in "+ job_type);
+			ui.reg_message("There are no jobs in "+ job_field);
 			return;
 		}
 	}
@@ -617,7 +617,7 @@ public class app {
 	public void add_job() {
 		Job new_job;
 		int choice = -1;
-		String Job_type = " ", type = " ";
+		String Job_type = " ", job_field = " ";
 		boolean py = false, java = false, c = false, cpp = false, j_s = false;
 		choice = ui.two_options("Add job", "Add new job:", "Student job", "Senior job");
 		if (choice == 0)
@@ -638,23 +638,23 @@ public class app {
 		} else {
 			return;
 		} // TODO: check. free new_job?
-		String[] types = { "Software", "Firmware" , "Security" , "DevOps" , "QA"};
-		choice = ui.some_options("Add job", "what is the job Erea?", types);
+		String[] fields = { "Software", "Firmware" , "Security" , "DevOps" , "QA"};
+		choice = ui.some_options("Add job", "what is the job Erea?", fields);
 		switch (choice) {
 			case 0:
-				type= "Software";
+				job_field= "Software";
 				break;
 			case 1:
-				type="Firmware";
+				job_field="Firmware";
 				break;
 			case 2:
-				type="Security";
+				job_field="Security";
 				break;
 			case 3:
-				type="DevOps";
+				job_field="DevOps";
 				break;
 			case 4:
-				type="QA";
+				job_field="QA";
 				break;
 			default:
 			 	return;	
@@ -689,12 +689,12 @@ public class app {
 			int salary = Integer.valueOf(ui.free_input("Add job", "Please enter a salary per hour"));
 			int num_hours = Integer.valueOf(ui.free_input("Add job", "Please enter a num of hours in week"));
 			// TODO: input validation. maybe: oone window for all 3?
-			new_job = new Student_Job(type, company, location, prog_language, salary, gpa_req, num_hours);
+			new_job = new Student_Job(job_field, company, location, prog_language, salary, gpa_req, num_hours);
 		} else {// senior
 			String experience = ui.free_input("Add job", "Please enter a required experience");
 			int seniority = Integer.valueOf(ui.free_input("Add job", "Please enter a required num of seniority"));
 			// TODO: input validation.
-			new_job = new Senior_Job(type, company, location, prog_language, seniority, experience);
+			new_job = new Senior_Job(job_field, company, location, prog_language, seniority, experience);
 		}
 		this.jobsList.add(new_job);
 		ui.reg_message("The job was successfully added");
@@ -723,14 +723,14 @@ public class app {
 		passwords.put(name, password);
 	}
 
-	public void add_job_to_DB(boolean type, String name, String company, boolean python, boolean java, boolean c,
+	public void add_job_to_DB(boolean type, String field, String company, boolean python, boolean java, boolean c,
 			boolean cpp, boolean javascript, String location, int gpa_or_seniority, int salery) {
 		Languages languages = new Languages(python, java, c, cpp, javascript);
 		if (type) { // student
-			Student_Job job = new Student_Job(name, company, location, languages, salery, gpa_or_seniority, 20);
+			Student_Job job = new Student_Job(field, company, location, languages, salery, gpa_or_seniority, 20);
 			jobsList.add(job);
 		} else { // senior
-			Senior_Job job = new Senior_Job(name, company, location, languages, gpa_or_seniority, " ");
+			Senior_Job job = new Senior_Job(field, company, location, languages, gpa_or_seniority, " ");
 			jobsList.add(job);
 		}
 
