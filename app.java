@@ -13,11 +13,6 @@ public class app {
 	HashMap<String, E_Profile> users_map = new HashMap<String, E_Profile>(); // user name->profile
 	HashMap<String, String> passwords = new HashMap<String, String>(); // user name->password
 	ArrayList<Job> jobsList = new ArrayList<Job>();
-	// Scanner input = new Scanner(System.in); // Create a Scanner object
-	// for printing:
-	UI ui = new UI();
-	// ImageIcon logo = new ImageIcon("logo.png");
-	// String[] responses={null,null,null};
 
 	public app() {
 		passwords.put("maneger", "1800400400");
@@ -56,7 +51,7 @@ public class app {
 	public void start_menu() {
 		boolean exit = false;
 		while (!exit) {
-			int operation = ui.panel_welcome();
+			int operation = UI.panel_welcome();
 			switch (operation) {
 				case 0:
 					login();
@@ -77,9 +72,9 @@ public class app {
 	}
 
 	public void login() {
-		HashMap<String, String> user = ui.login();
+		HashMap<String, String> user = UI.login();
 		if (!isExist(user.get("user_name"), user.get("password")))// check if the name exist in the system.
-			ui.error_message("the user name or password are not correct");
+			UI.error_message("the user name or password are not correct");
 		// check if maneger
 		else if (user.get("user_name").equals("maneger") && user.get("password").equals("1800400400"))
 			maneger_menu();
@@ -91,33 +86,33 @@ public class app {
 		String user_name;
 		boolean flag = false;
 		do {
-			user_name = ui.free_input("SIGN-IN", "Please enter a user name:");
+			user_name = UI.free_input("SIGN-IN", "Please enter a user name:");
 			if (user_name == null)
 				return;
 			flag = user_name_in_use(user_name);
 			if (flag)
-				ui.error_message("This name is taken. pls choose another one");
+				UI.error_message("This name is taken. pls choose another one");
 		} while (flag);
-		final String password = ui.free_input("SIGN-IN", "Please enter a password:");
+		final String password = UI.free_input("SIGN-IN", "Please enter a password:");
 		if (password == null)
 			return;
 		
 		E_Profile e_p = new E_Profile();
 		boolean create_successful =  e_p.create_user_card();
 		if (!create_successful){
-				ui.reg_message("create user card is failed or canceled. pls try again");
+				UI.reg_message("create user card is failed or canceled. pls try again");
 				return;
 		}	
 		users_map.put(user_name, e_p);
 		passwords.put(user_name, password);
-		ui.reg_message("SIGN-IN", "Thank you for signing in! pls log-in");
+		UI.reg_message("SIGN-IN", "Thank you for signing in! pls log-in");
 	}
 
 	public void user_menu(String user_name) {
 
 		while (true) {
 			String[] menu_options = { "My profile", "Find my next Job","LOG-OUT"};
-			int choice = ui.some_options("Menu", "what do you want to do:",menu_options);
+			int choice = UI.some_options("Menu", "what do you want to do:",menu_options);
 			if (choice == 0) { // My profile
 				users_map.get(user_name).menu();
 			} else if (choice == 1) { // Find my next Job
@@ -125,7 +120,7 @@ public class app {
 						"Show job by lcation",
 						"Show job by field",
 						"find my dream job" }; // options for printing
-				int operation = ui.some_options("Job Matcher", "Find my next Job", find_job_options);
+				int operation = UI.some_options("Job Matcher", "Find my next Job", find_job_options);
 				switch (operation) {
 					case 0: // print all jobs (according to the employee type- student/senior)
 						print_all_jobs(user_name); // call this func with card of this user.
@@ -149,7 +144,7 @@ public class app {
 		String[] field = { "Software", "Firmware" , "Security" , "DevOps" , "QA"};
 		int choice1 = -1;
 		do {
-			choice1 = ui.some_options("Find job by field",
+			choice1 = UI.some_options("Find job by field",
 					"In which field of job would you like to look?", field);
 			switch (choice1) {
 				case 0:
@@ -170,7 +165,7 @@ public class app {
 				default:	
 					break;
 			}
-			choice1 = ui.yes_no("Find job by field", "Do you want to see another jobs?");
+			choice1 = UI.yes_no("Find job by field", "Do you want to see another jobs?");
 		} while (choice1 == 0);
 	
 	}
@@ -184,7 +179,7 @@ public class app {
 			for (int i = 0; i < jobsList.size(); i++) {
 				if (jobsList.get(i) instanceof Student_Job && (jobsList.get(i).getJobField().equals(job_field))) {
 					flag=false;
-					retval = ui.some_options(job_field , jobsList.get(i).toString() , button);
+					retval = UI.some_options(job_field , jobsList.get(i).toString() , button);
 					if (retval == -1 || retval == 1)
 						return;
 				}
@@ -194,14 +189,14 @@ public class app {
 			for (int i = 0; i < jobsList.size(); i++) {
 				if (jobsList.get(i) instanceof Senior_Job && (jobsList.get(i).getJobField().equals(job_field))) {
 					flag=false;
-					retval = ui.some_options(job_field, jobsList.get(i).toString(), button);
+					retval = UI.some_options(job_field, jobsList.get(i).toString(), button);
 					if (retval == -1 || retval == 1)
 						return;
 				}
 			}
 		}
 		if(flag){
-			ui.reg_message("There are no jobs in "+ job_field);
+			UI.reg_message("There are no jobs in "+ job_field);
 			return;
 		}
 	}
@@ -215,7 +210,7 @@ public class app {
 			for (int i = 0; i < jobsList.size(); i++) {
 				if (jobsList.get(i) instanceof Student_Job && (jobsList.get(i).getLocation().equals(location))) {
 					flag=false;
-					retval = ui.some_options("jobs in "+location, jobsList.get(i).toString(), button);
+					retval = UI.some_options("jobs in "+location, jobsList.get(i).toString(), button);
 					if (retval == -1 || retval == 1)
 						return;
 				}
@@ -225,14 +220,14 @@ public class app {
 			for (int i = 0; i < jobsList.size(); i++) {
 				if (jobsList.get(i) instanceof Senior_Job && (jobsList.get(i).getLocation().equals(location))) {
 					flag=false;
-					retval = ui.some_options("jobs in "+location, jobsList.get(i).toString(), button);
+					retval = UI.some_options("jobs in "+location, jobsList.get(i).toString(), button);
 					if (retval == -1 || retval == 1)
 						return;
 				}
 			}
 		}
 		if(flag){
-			ui.reg_message("there are no jobs in yor location..");
+			UI.reg_message("there are no jobs in yor location..");
 			return;
 		}
 
@@ -293,22 +288,22 @@ public class app {
 			score = sorted_jobs.get(key);
 			// for the first job only:
 			if (key_counter == 0 && score < 10) { // there is't a fit job
-				ui.reg_message("Unfortunately there are no jobs that fit you perfectly.. \n Try again later");
+				UI.reg_message("Unfortunately there are no jobs that fit you perfectly.. \n Try again later");
 				return;
 			}
 			// check if the job's score is high enough. abort if not 
 			// (the jobs aresorted by them score)
 			if (score < 10 || prints_counter == 3) {
-				ui.reg_message("That's all :)\n Hurry up! your new employers are waiting for you");
+				UI.reg_message("That's all :)\n Hurry up! your new employers are waiting for you");
 				return;
 			} else {
 				if (prints_counter == 0){
 					String[] first_m_button = {"show me"};
-					retval = ui.some_options("your dream-job", "we found jobs special for you! click here to see! :)", first_m_button);
+					retval = UI.some_options("your dream-job", "we found jobs special for you! click here to see! :)", first_m_button);
 					if (retval == -1)
 						return;
 				}
-				retval = ui.some_options("your dream-job", jobsList.get(key).toString(), button);
+				retval = UI.some_options("your dream-job", jobsList.get(key).toString(), button);
 				if (retval == 1 || retval == -1)
 					return;
 				prints_counter++;
@@ -456,7 +451,7 @@ public class app {
 		boolean exit = false;
 		while (!exit) {
 			String[] manager_options = { "Add new job", "Delete a job", "Show all jobs", "LOG-OUT" }; // options for printing
-			int operation = ui.some_options("Job Matcher", "Maneger Menu", manager_options);
+			int operation = UI.some_options("Job Matcher", "Maneger Menu", manager_options);
 			switch (operation) {
 				case 0:
 					add_job();
@@ -483,7 +478,7 @@ public class app {
 		for (int i = 0; i < jobsList.size(); i++) {
 			if (i == 0) {
 				String[] button = { "delete", "next" };
-				int retval = ui.some_options("all jobs", "Job num " + (i + 1) + jobsList.get(i).toString(), button);
+				int retval = UI.some_options("all jobs", "Job num " + (i + 1) + jobsList.get(i).toString(), button);
 				if (retval == 0) {
 					delete_job_index = i;
 					break;
@@ -492,7 +487,7 @@ public class app {
 			}
 			 else if (i < jobsList.size() - 1) {
 				String[] button = { "back", "delete", "next" };
-				int retval = ui.some_options("all jobs", "Job num " + (i + 1) + jobsList.get(i).toString(), button);
+				int retval = UI.some_options("all jobs", "Job num " + (i + 1) + jobsList.get(i).toString(), button);
 				if (retval == 1)
 				{
 					delete_job_index = i;
@@ -502,7 +497,7 @@ public class app {
 				else if(retval== -1){return;}
 			} else { // last job in the list
 				String[] button = { "back", "delete", "cancel" };
-				int retval = ui.some_options("all jobs", "Job num " + (i + 1) + jobsList.get(i).toString(), button);
+				int retval = UI.some_options("all jobs", "Job num " + (i + 1) + jobsList.get(i).toString(), button);
 				if (retval == 1) {
 					delete_job_index = i;
 					break;
@@ -513,7 +508,7 @@ public class app {
 		}
 		if (delete_job_index != -1){
 			jobsList.remove(delete_job_index);
-			ui.reg_message("the job was successfully removed");
+			UI.reg_message("the job was successfully removed");
 		}
 		
 	}
@@ -535,19 +530,19 @@ public class app {
 				if (jobsList.get(i) instanceof Student_Job) {
 					if (i == 0) {
 						String[] buttons = {"next", "exit"};
-						retval = ui.some_options("all jobs", "Job num " + (i + 1) + jobsList.get(i).toString(), buttons);
+						retval = UI.some_options("all jobs", "Job num " + (i + 1) + jobsList.get(i).toString(), buttons);
 						if (retval == 1 || retval == -1)
 							return;
 					} else if (i != last_student_index) {
 						String[] buttons = { "back", "next", "exit" };
-						retval = ui.some_options("all jobs", "Job num " + (i + 1) + jobsList.get(i).toString(),buttons);
+						retval = UI.some_options("all jobs", "Job num " + (i + 1) + jobsList.get(i).toString(),buttons);
 						if (retval == 0)
 							i -= 2;
 						if (retval == 2 || retval == -1)
 							return;
 					} else { // last job in the list
 						String[] buttons = { "back", "exit"};
-						retval = ui.some_options("all jobs", "Job num " + (i + 1) + jobsList.get(i).toString(),buttons);
+						retval = UI.some_options("all jobs", "Job num " + (i + 1) + jobsList.get(i).toString(),buttons);
 						if (retval == 0)
 							i -= 2;
 						if (retval == 1 || retval == -1)
@@ -569,13 +564,13 @@ public class app {
 				if (jobsList.get(i) instanceof Senior_Job) {
 					if (i == 0) {
 						String[] button = { "next" ,"exit"};
-						retval = ui.some_options("all jobs", "Job num " + (i + 1) + jobsList.get(i).toString(), button);
+						retval = UI.some_options("all jobs", "Job num " + (i + 1) + jobsList.get(i).toString(), button);
 						if (retval == 1 || retval == -1)
 							return;
 					}
 					if (i != last_senior_index) {
 						String[] button = { "back", "next", "exit" };
-						retval = ui.some_options("all jobs", "Job num " + (i + 1) + jobsList.get(i).toString(),
+						retval = UI.some_options("all jobs", "Job num " + (i + 1) + jobsList.get(i).toString(),
 								button);
 						if (retval == 0)
 							i -= 2;
@@ -583,7 +578,7 @@ public class app {
 							return;
 					} else { // last job in the list
 						String[] button = { "back", "exit" };
-						retval = ui.some_options("all jobs", "Job num " + (i + 1) + jobsList.get(i).toString(),
+						retval = UI.some_options("all jobs", "Job num " + (i + 1) + jobsList.get(i).toString(),
 								button);
 						if (retval == 0)
 							i -= 2;
@@ -600,19 +595,19 @@ public class app {
 		for (int i = 0; i < jobsList.size(); i++) {
 			if (i == 0) {
 				String[] button = { "next", "exit"};
-				retval = ui.some_options("all jobs", "Job num " + (i + 1) + jobsList.get(i).toString(), button);
+				retval = UI.some_options("all jobs", "Job num " + (i + 1) + jobsList.get(i).toString(), button);
 				if (retval == 1 || retval == -1)
 					return;
 			} else if (i < jobsList.size() - 1) {
 				String[] button = { "back", "next", "exit"};
-				retval = ui.some_options("all jobs", "Job num " + (i + 1) + jobsList.get(i).toString(), button);
+				retval = UI.some_options("all jobs", "Job num " + (i + 1) + jobsList.get(i).toString(), button);
 				if (retval == 0)
 					i -= 2;
 				if (retval == 2 || retval == -1)
 					return;
 			} else { // last job in the list
 				String[] button = { "back" ,"exit"};
-				retval = ui.some_options("all jobs", "Job num " + (i + 1) + jobsList.get(i).toString(), button);
+				retval = UI.some_options("all jobs", "Job num " + (i + 1) + jobsList.get(i).toString(), button);
 				if (retval == 0)
 					i -= 2;
 				if (retval == 1 || retval == -1)
@@ -630,7 +625,7 @@ public class app {
 		//get the params tha relevant to both student and Senior:
 
 		//job status type
-		choice = ui.two_options("Add job", "Add new job:", "Student job", "Senior job");
+		choice = UI.two_options("Add job", "Add new job:", "Student job", "Senior job");
 		if (choice == 0)
 			Job_type = "student";
 		else if (choice == 1)
@@ -639,12 +634,12 @@ public class app {
 			return;
 
 		//company
-		String company = ui.free_input("Add job", "what is the company name?");
+		String company = UI.free_input("Add job", "what is the company name?");
 		if (company == null)
 			return;
 		//location
 		String[] locations = { "South", "Center", "North" };
-		int location_c = ui.some_options("Add job", "Please choose the job location:", locations);
+		int location_c = UI.some_options("Add job", "Please choose the job location:", locations);
 		String location = " ";
 		if (location_c == 0) {
 			location = "South";
@@ -658,7 +653,7 @@ public class app {
 
 		//field
 		String[] fields = { "Software", "Firmware" , "Security" , "DevOps" , "QA"};
-		choice = ui.some_options("Add job", "what is the job Erea?", fields);
+		choice = UI.some_options("Add job", "what is the job Erea?", fields);
 		switch (choice) {
 			case 0:
 				job_field= "Software";
@@ -682,7 +677,7 @@ public class app {
 		//required languages
 		String[] languages = { "python", "java", "c", "cpp", "javascript" };
 		do {
-			choice = ui.some_options("Add job", "what programming languages is required?", languages);
+			choice = UI.some_options("Add job", "what programming languages is required?", languages);
 			switch (choice) {
 				case 0:
 					py = true;
@@ -702,7 +697,7 @@ public class app {
 				default:
 					return;
 			}
-			choice = ui.yes_no("Add job", "Do you want to add another programming language?");
+			choice = UI.yes_no("Add job", "Do you want to add another programming language?");
 		} while (choice == 0);
 		Languages prog_language = new Languages(py, java, c, cpp, j_s);
 
@@ -715,50 +710,50 @@ public class app {
 			//GPA
 			do {
 			valid_input = true;
-			String str_gpa = ui.free_input("Add job", "Please enter a required GPA");
+			String str_gpa = UI.free_input("Add job", "Please enter a required GPA");
 			if (str_gpa == null)
 				return;
 			gpa_req = Integer.valueOf(str_gpa);
 			if (gpa_req < 60 || gpa_req > 100){
 				valid_input = false;
-				ui.reg_message("the number you entered is out of scope. pls try again");
+				UI.reg_message("the number you entered is out of scope. pls try again");
 			}
 			}while (!valid_input);
 			
 			//salary
 			do {
 			valid_input = true;
-			String str_salary = ui.free_input("Add job", "Please enter a salary- NIS per hour");
+			String str_salary = UI.free_input("Add job", "Please enter a salary- NIS per hour");
 			if (str_salary == null)
 				return;
 			salary = Integer.valueOf(str_salary);
 			if (salary < 0){
 				valid_input = false;
-				ui.reg_message("the number you entered is out of scope. pls try again");
+				UI.reg_message("the number you entered is out of scope. pls try again");
 			}
 			}while (!valid_input);
 
 			//hours per week
 			do {
 			valid_input = true;
-			String str_num_hours = ui.free_input("Add job", "Please enter a num of hours in week");
+			String str_num_hours = UI.free_input("Add job", "Please enter a num of hours in week");
 			if (str_num_hours == null)
 				return;
 			num_hours = Integer.valueOf(str_num_hours);
 			if (num_hours < 0 || num_hours > 50){
 				valid_input = false;
-				ui.reg_message("the number you entered is out of scope. pls try again");
+				UI.reg_message("the number you entered is out of scope. pls try again");
 			}
 			}while (!valid_input);
 
 			//create the new Student job and add it to the jobs list
 			Job new_job = new Student_Job(job_field, company, location, prog_language, salary, gpa_req, num_hours);
 			this.jobsList.add(new_job);
-			ui.reg_message("The job was successfully added");
+			UI.reg_message("The job was successfully added");
 		} 
 		else if (Job_type.equals("senior")) {// senior
 			//required experience
-			String experience = ui.free_input("Add job", "Please enter a required experience (text)");
+			String experience = UI.free_input("Add job", "Please enter a required experience (text)");
 			if (experience == null)
 				return;
 
@@ -766,19 +761,19 @@ public class app {
 			int seniority;
 			do{
 			valid_input = true;
-			String str_seniority= ui.free_input("Add job", "Please enter the number of required seniority years");
+			String str_seniority= UI.free_input("Add job", "Please enter the number of required seniority years");
 			if (str_seniority == null)
 				return;
 			seniority= Integer.valueOf(str_seniority);
 			if (seniority < 0){
 				valid_input = false;
-				ui.reg_message("the number you entered is out of scope. pls try again");
+				UI.reg_message("the number you entered is out of scope. pls try again");
 			}
 			}while (!valid_input);
 			//create the new Senior job and add it to the jobs list
 			Job new_job = new Senior_Job(job_field, company, location, prog_language, seniority, experience);
 			this.jobsList.add(new_job);
-			ui.reg_message("The job was successfully added");
+			UI.reg_message("The job was successfully added");
 		}
 	}
 
