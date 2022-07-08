@@ -3,7 +3,7 @@ package ex3;
 public class Senior extends Employee {
 
     private String last_job;
-    private int seniority;
+    private int seniority; //years
 
     // constractor:
     public Senior(Personal_info details, Languages languages, String extraInf, String n_last_job, int n_seniority) {

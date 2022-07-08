@@ -60,14 +60,12 @@ public class app {
 					sign_in();
 					break;
 				case 2:
-					// log out ->menu
 					exit = true;
 					break;
 				default:
 					exit = true;
 			}
 		}
-		// input.close();
 
 	}
 

@@ -1,7 +1,5 @@
 package ex3;
 
-//import java.util.Scanner;
-
 public class E_Profile implements Profile {
 
 	private int status;
