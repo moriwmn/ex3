@@ -383,7 +383,7 @@ public class E_Profile implements Profile {
 					break;
 			}
 			choice1 = UI.yes_no("add a programming language",
-					"Do you want to add another programming language?");
+					"Do you want to delete another programming language?");
 		} while (choice1 == 0);
 	}
 }// end E_profile
